@@ -70,7 +70,7 @@ const translations = {
       "Translate and revise patent-related and technical texts between Chinese and Spanish, with attention to terminology, accuracy, and readability.",
     experienceTagTeaching: "Teaching",
     expTeachingTitle: "Spanish Language Instructor",
-    expTeachingMeta: "Online language instruction, 2024-Present",
+    expTeachingMeta: "Beijing Xindongfang Vision Overseas Consulting Co., Ltd. (New Oriental Vision Overseas), 2025-Present",
     expTeachingText:
       "Teach A1-B2 Spanish courses in small-group and one-to-one formats, adapting materials to learner goals.",
     experienceTagResearch: "Research Collaboration",
@@ -166,7 +166,7 @@ const translations = {
     expTranslationText: "负责中西专利与技术文本的翻译和审校，关注术语一致性、准确性与可读性。",
     experienceTagTeaching: "教学",
     expTeachingTitle: "西班牙语教师",
-    expTeachingMeta: "线上语言教学，2024 至今",
+    expTeachingMeta: "北京新东方前途出国咨询有限公司，2025 至今",
     expTeachingText: "面向 A1-B2 学习者开展小班和一对一西班牙语课程，并根据学习目标调整教学材料。",
     experienceTagResearch: "研究协作",
     expResearchTitle: "科研项目协作译者",
@@ -260,7 +260,7 @@ const translations = {
       "Traducción y revisión de textos técnicos y de patentes entre chino y español, con atención a la terminología, la precisión y la legibilidad.",
     experienceTagTeaching: "Docencia",
     expTeachingTitle: "Profesor de español",
-    expTeachingMeta: "Docencia de lenguas en línea, 2024-Actualidad",
+    expTeachingMeta: "Beijing Xindongfang Vision Overseas Consulting Co., Ltd. (New Oriental Vision Overseas), 2025-Actualidad",
     expTeachingText:
       "Clases de español A1-B2 en grupos reducidos y formato individual, con adaptación de materiales a los objetivos del alumnado.",
     experienceTagResearch: "Colaboración investigadora",
