@@ -115,20 +115,62 @@
           <p class="eyebrow" data-i18n="aboutEyebrow">Biography</p>
           <h2 id="about-title" data-i18n="aboutTitle">Biography</h2>
         </div>
-        <div class="section-body two-column">
-          <p data-i18n="aboutTextOne">
-            Haohong Lai is a PhD candidate in Translation and Intercultural Studies at the Universitat Autònoma de
-            Barcelona, Spain. His doctoral dissertation focuses on deepening the theoretical understanding and practical
-            interpretation of digital literacy in Translation Studies, and aims to develop a content framework for two
-            domains: professional language services, especially professional translation, and teaching activities,
-            including translation and language teaching.
-          </p>
-          <p data-i18n="aboutTextTwo">
-            His main research interests include digital literacy theory in Translation Studies, translation technology
-            with a focus on machine translation, post-editing practice, and translation philosophy from a posthumanist
-            perspective. He is proficient in Spanish and English, with extensive experience in Spanish language teaching
-            and professional translation practice.
-          </p>
+        <div class="section-body biography-body">
+          <div class="two-column">
+            <p data-i18n="aboutTextOne">
+              Haohong Lai is a PhD candidate in Translation and Intercultural Studies at the Universitat Autònoma de
+              Barcelona, Spain. His doctoral dissertation focuses on deepening the theoretical understanding and practical
+              interpretation of digital literacy in Translation Studies, and aims to develop a content framework for two
+              domains: professional language services, especially professional translation, and teaching activities,
+              including translation and language teaching.
+            </p>
+            <p data-i18n="aboutTextTwo">
+              His main research interests include digital literacy theory in Translation Studies, translation technology
+              with a focus on machine translation, post-editing practice, and translation philosophy from a posthumanist
+              perspective. He is proficient in Spanish and English, with extensive experience in Spanish language teaching
+              and professional translation practice.
+            </p>
+          </div>
+
+          <div class="interactive-bio" data-bio>
+            <button class="journey-toggle" type="button" data-bio-toggle aria-expanded="false" aria-controls="interactive-biography-panel">
+              <span data-i18n="bioToggleOpen">View Interactive Biography</span>
+              <span class="toggle-indicator" aria-hidden="true">+</span>
+            </button>
+            <div class="journey-panel" id="interactive-biography-panel" data-bio-panel hidden>
+              <h3 data-i18n="bioPanelTitle">Interactive Biography</h3>
+              <ol class="journey-list" aria-label="Interactive biography">
+                <li>
+                  <time datetime="2000-06-14" data-i18n="bioDateOne">14 Jun 2000</time>
+                  <p data-i18n="bioNodeOne">Born in Yong'an, Fujian Province, China.</p>
+                </li>
+                <li>
+                  <time datetime="2015-06" data-i18n="bioDateTwo">Jun 2015</time>
+                  <p data-i18n="bioNodeTwo">Entered Yong'an No. 3 High School in Fujian Province.</p>
+                </li>
+                <li>
+                  <time datetime="2018-09" data-i18n="bioDateThree">Sep 2018</time>
+                  <p data-i18n="bioNodeThree">Began undergraduate study in Hispanic Philology at Southwest University of Science and Technology.</p>
+                </li>
+                <li>
+                  <time datetime="2022-09" data-i18n="bioDateFour">Sep 2022</time>
+                  <p data-i18n="bioNodeFour">Moved to Spain for graduate study in Translation and Intercultural Studies at the Universitat Autònoma de Barcelona.</p>
+                </li>
+                <li>
+                  <time datetime="2023-10" data-i18n="bioDateFive">Oct 2023</time>
+                  <p data-i18n="bioNodeFive">Started doctoral study in Translation and Intercultural Studies at the Universitat Autònoma de Barcelona.</p>
+                </li>
+                <li>
+                  <time datetime="2025-05" data-i18n="bioDateSix">May 2025</time>
+                  <p data-i18n="bioNodeSix">Published his first academic article.</p>
+                </li>
+                <li>
+                  <time datetime="2026-05" data-i18n="bioDateSeven">May 2026</time>
+                  <p data-i18n="bioNodeSeven">Created this academic website in collaboration with Codex.</p>
+                </li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -342,6 +384,6 @@
       <p data-i18n="footerText">© 2026 Haohong Lai. Last updated May 2026.</p>
     </footer>
 
-    <script src="script.js?v=20260529-4"></script>
+    <script src="script.js?v=20260529-5"></script>
   </body>
 </html>

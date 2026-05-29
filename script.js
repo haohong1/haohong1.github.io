@@ -27,6 +27,25 @@ const translations = {
       "Haohong Lai is a PhD candidate in Translation and Intercultural Studies at the Universitat Autònoma de Barcelona, Spain. His doctoral dissertation focuses on deepening the theoretical understanding and practical interpretation of digital literacy in Translation Studies, and aims to develop a content framework for two domains: professional language services, especially professional translation, and teaching activities, including translation and language teaching.",
     aboutTextTwo:
       "His main research interests include digital literacy theory in Translation Studies, translation technology with a focus on machine translation, post-editing practice, and translation philosophy from a posthumanist perspective. He is proficient in Spanish and English, with extensive experience in Spanish language teaching and professional translation practice.",
+    bioToggleOpen: "View Interactive Biography",
+    bioToggleClose: "Hide Interactive Biography",
+    bioPanelTitle: "Interactive Biography",
+    bioDateOne: "14 Jun 2000",
+    bioNodeOne: "Born in Yong'an, Fujian Province, China.",
+    bioDateTwo: "Jun 2015",
+    bioNodeTwo: "Entered Yong'an No. 3 High School in Fujian Province.",
+    bioDateThree: "Sep 2018",
+    bioNodeThree: "Began undergraduate study in Hispanic Philology at Southwest University of Science and Technology.",
+    bioDateFour: "Sep 2022",
+    bioNodeFour:
+      "Moved to Spain for graduate study in Translation and Intercultural Studies at the Universitat Autònoma de Barcelona.",
+    bioDateFive: "Oct 2023",
+    bioNodeFive:
+      "Started doctoral study in Translation and Intercultural Studies at the Universitat Autònoma de Barcelona.",
+    bioDateSix: "May 2025",
+    bioNodeSix: "Published his first academic article.",
+    bioDateSeven: "May 2026",
+    bioNodeSeven: "Created this academic website in collaboration with Codex.",
     researchEyebrow: "Research",
     researchTitle: "Research Interests",
     interestOneTitle: "Digital literacy",
@@ -129,6 +148,23 @@ const translations = {
       "赖豪鸿现为西班牙巴塞罗那自治大学翻译与跨文化研究方向博士研究生。其博士论文聚焦于深化翻译学领域对“数字素养”概念的理论认知与实践阐释，旨在通过专家访谈及话语分析方法，系统构建面向两类领域的数字素养内容框架：一是专业语言服务，尤以专业翻译为核心；二是教学活动，包括翻译教学与语言教学。",
     aboutTextTwo:
       "他的主要研究兴趣涵盖翻译学视域下的数字素养理论、翻译技术（尤以机器翻译为核心）、译后编辑实践，以及后人文主义视角的翻译哲学。他精通西班牙语与英语，兼具丰富的西班牙语教学经验与专业翻译实践经历。",
+    bioToggleOpen: "查看动态传记",
+    bioToggleClose: "收起动态传记",
+    bioPanelTitle: "动态传记",
+    bioDateOne: "2000.06.14",
+    bioNodeOne: "生于中国福建省永安市。",
+    bioDateTwo: "2015.06",
+    bioNodeTwo: "进入福建省永安市第三中学高中阶段学习。",
+    bioDateThree: "2018.09",
+    bioNodeThree: "考入西南科技大学西班牙语语言文学专业。",
+    bioDateFour: "2022.09",
+    bioNodeFour: "赴西班牙深造，进入巴塞罗那自治大学攻读翻译与跨文化研究。",
+    bioDateFive: "2023.10",
+    bioNodeFive: "于巴塞罗那自治大学开始攻读翻译与跨文化研究博士学位。",
+    bioDateSix: "2025.05",
+    bioNodeSix: "发表首篇学术论文。",
+    bioDateSeven: "2026.05",
+    bioNodeSeven: "与 Codex 协作创建个人学术网站。",
     researchEyebrow: "研究",
     researchTitle: "研究方向",
     interestOneTitle: "数字素养",
@@ -224,6 +260,26 @@ const translations = {
       "Haohong Lai es doctorando en Traducción y Estudios Interculturales en la Universitat Autònoma de Barcelona, España. Su tesis doctoral se centra en profundizar la comprensión teórica y la interpretación práctica del concepto de literacidad digital en los Estudios de Traducción, y busca construir un marco de contenidos para dos ámbitos: los servicios lingüísticos profesionales, especialmente la traducción profesional, y las actividades docentes, incluida la enseñanza de la traducción y de lenguas.",
     aboutTextTwo:
       "Sus principales intereses de investigación abarcan la teoría de la literacidad digital desde la perspectiva de los Estudios de Traducción, las tecnologías de traducción, especialmente la traducción automática, la práctica de la posedición y la filosofía de la traducción desde una perspectiva posthumanista. Domina el español y el inglés, y cuenta con amplia experiencia en la enseñanza del español y en la práctica profesional de la traducción.",
+    bioToggleOpen: "Ver biografía interactiva",
+    bioToggleClose: "Ocultar biografía interactiva",
+    bioPanelTitle: "Biografía interactiva",
+    bioDateOne: "14 jun. 2000",
+    bioNodeOne: "Nace en Yong'an, provincia de Fujian, China.",
+    bioDateTwo: "jun. 2015",
+    bioNodeTwo: "Inicia sus estudios de bachillerato en la Yong'an No. 3 High School, en Fujian.",
+    bioDateThree: "sept. 2018",
+    bioNodeThree:
+      "Comienza el grado en Filología Hispánica en la Southwest University of Science and Technology.",
+    bioDateFour: "sept. 2022",
+    bioNodeFour:
+      "Se traslada a España para cursar estudios de posgrado en Traducción y Estudios Interculturales en la Universitat Autònoma de Barcelona.",
+    bioDateFive: "oct. 2023",
+    bioNodeFive:
+      "Inicia el doctorado en Traducción y Estudios Interculturales en la Universitat Autònoma de Barcelona.",
+    bioDateSix: "mayo 2025",
+    bioNodeSix: "Publica su primer artículo académico.",
+    bioDateSeven: "mayo 2026",
+    bioNodeSeven: "Crea este sitio web académico en colaboración con Codex.",
     researchEyebrow: "Investigación",
     researchTitle: "Líneas de investigación",
     interestOneTitle: "Literacidad digital",
@@ -340,12 +396,40 @@ function setLanguage(language) {
   localStorage.setItem("preferred-language", language);
 }
 
+function updateBioToggleText() {
+  const button = document.querySelector("[data-bio-toggle]");
+  if (!button) return;
+
+  const language = localStorage.getItem("preferred-language") || document.documentElement.lang.slice(0, 2) || "en";
+  const normalizedLanguage = translations[language] ? language : "en";
+  const dictionary = translations[normalizedLanguage];
+  const label = button.querySelector("[data-i18n]");
+  const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+  if (label) {
+    label.textContent = isExpanded ? dictionary.bioToggleClose : dictionary.bioToggleOpen;
+  }
+}
+
 document.querySelectorAll("[data-lang-button]").forEach((button) => {
   button.addEventListener("click", () => {
     const language = button.getAttribute("data-lang-button");
     setLanguage(language);
+    updateBioToggleText();
   });
 });
+
+const bioToggle = document.querySelector("[data-bio-toggle]");
+const bioPanel = document.querySelector("[data-bio-panel]");
+
+if (bioToggle && bioPanel) {
+  bioToggle.addEventListener("click", () => {
+    const isExpanded = bioToggle.getAttribute("aria-expanded") === "true";
+    bioToggle.setAttribute("aria-expanded", String(!isExpanded));
+    bioPanel.hidden = isExpanded;
+    updateBioToggleText();
+  });
+}
 
 const savedLanguage = localStorage.getItem("preferred-language");
 const browserLanguage = navigator.language?.startsWith("zh")
@@ -355,3 +439,4 @@ const browserLanguage = navigator.language?.startsWith("zh")
     : "en";
 
 setLanguage(savedLanguage && translations[savedLanguage] ? savedLanguage : browserLanguage);
+updateBioToggleText();
