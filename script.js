@@ -99,8 +99,7 @@ const translations = {
     skillProgramming: "Programming: Python basics",
     contactEyebrow: "Contact",
     contactTitle: "Get in touch",
-    contactText:
-      "I welcome academic conversations on translation technologies, digital literacy, machine translation, and human-AI interaction in language work.",
+    contactText: "I welcome academic exchange, collaboration, and related inquiries.",
     footerText: "© 2026 Haohong Lai. Last updated May 2026."
   },
   zh: {
@@ -194,7 +193,7 @@ const translations = {
     skillProgramming: "编程：Python 基础",
     contactEyebrow: "联系",
     contactTitle: "欢迎联系",
-    contactText: "欢迎就翻译技术、数字素养、机器翻译，以及语言工作中的人机互动等主题进行学术交流。",
+    contactText: "欢迎就学术交流、合作及相关事宜与我联系。",
     footerText: "© 2026 赖豪鸿。最后更新：2026 年 5 月。"
   },
   es: {
@@ -297,8 +296,7 @@ const translations = {
     skillProgramming: "Programación: Python básico",
     contactEyebrow: "Contacto",
     contactTitle: "Contacto",
-    contactText:
-      "Estoy abierto a conversaciones académicas sobre tecnologías de traducción, literacidad digital, traducción automática e interacción humano-IA en el trabajo lingüístico.",
+    contactText: "Estoy abierto a intercambios académicos, colaboraciones y consultas relacionadas.",
     footerText: "© 2026 Haohong Lai. Última actualización: mayo de 2026."
   }
 };
