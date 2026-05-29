@@ -34,7 +34,7 @@ const translations = {
       "Digital literacy theory and framework building for professional language services and teaching contexts.",
     interestTwoTitle: "Machine translation",
     interestTwoText:
-      "Machine translation systems, error patterns, and translation quality in professional practice.",
+      "Training and fine-tuning LLM-based translation systems, prompt engineering, and translation quality evaluation.",
     interestThreeTitle: "Post-editing",
     interestThreeText: "Post-editing practices, translator decision-making, and human-machine workflows.",
     interestFourTitle: "Philosophy of technology",
@@ -135,7 +135,7 @@ const translations = {
     interestOneTitle: "数字素养",
     interestOneText: "翻译学视域下的数字素养理论，以及面向专业语言服务与教学活动的框架建构。",
     interestTwoTitle: "机器翻译",
-    interestTwoText: "机器翻译系统、错误特征及其在专业翻译实践中的质量问题。",
+    interestTwoText: "大语言模型翻译系统的训练与微调、提示词工程，以及翻译质量评估。",
     interestThreeTitle: "译后编辑",
     interestThreeText: "译后编辑实践、译者决策，以及人机协作翻译流程。",
     interestFourTitle: "技术哲学",
@@ -232,7 +232,7 @@ const translations = {
       "Teoría de la literacidad digital y construcción de marcos para servicios lingüísticos profesionales y contextos docentes.",
     interestTwoTitle: "Traducción automática",
     interestTwoText:
-      "Sistemas de traducción automática, patrones de error y calidad traductora en la práctica profesional.",
+      "Entrenamiento y ajuste fino de sistemas de traducción basados en grandes modelos lingüísticos, ingeniería de prompts y evaluación de la calidad de la traducción.",
     interestThreeTitle: "Posedición",
     interestThreeText: "Prácticas de posedición, toma de decisiones y flujos de trabajo humano-máquina.",
     interestFourTitle: "Filosofía de la tecnología",
