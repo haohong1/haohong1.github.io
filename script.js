@@ -50,8 +50,9 @@ const translations = {
     publicationsEyebrow: "Publications",
     publicationsTitle: "Selected Publications",
     pubEamtTitle:
-      "The Role of Prompt Language and Translation Theory-Driven Prompts in Large Language Models: A Case Study on Spanish-Chinese Journalistic Translation",
-    pubEamtMeta: "Lai, H. (2026). Conference paper presented at EAMT 2026.",
+      "The Role of Prompt Language and Translation-Theory-Driven Prompts in Large Language Models: A Case Study on Spanish–Chinese Journalistic Translation",
+    pubEamtMeta:
+      "Lai, H., & Li, W. (2026). In Proceedings of the 26th Annual Conference of the European Association for Machine Translation (EAMT 2026), Volume 1, pp. 927-945.",
     educationEyebrow: "Education",
     educationTitle: "Education",
     eduPhdDate: "Oct 2023 - Present",
@@ -153,8 +154,8 @@ const translations = {
     publicationsEyebrow: "发表",
     publicationsTitle: "代表性成果",
     pubEamtTitle:
-      "The Role of Prompt Language and Translation Theory-Driven Prompts in Large Language Models: A Case Study on Spanish-Chinese Journalistic Translation",
-    pubEamtMeta: "Lai, H. (2026). EAMT 2026 会议论文。",
+      "The Role of Prompt Language and Translation-Theory-Driven Prompts in Large Language Models: A Case Study on Spanish–Chinese Journalistic Translation",
+    pubEamtMeta: "Lai, H., & Li, W. (2026). 收录于 EAMT 2026 会议论文集第 1 卷，pp. 927-945。",
     educationEyebrow: "教育",
     educationTitle: "教育背景",
     eduPhdDate: "2023.10-至今",
@@ -255,8 +256,9 @@ const translations = {
     publicationsEyebrow: "Publicaciones",
     publicationsTitle: "Publicaciones seleccionadas",
     pubEamtTitle:
-      "The Role of Prompt Language and Translation Theory-Driven Prompts in Large Language Models: A Case Study on Spanish-Chinese Journalistic Translation",
-    pubEamtMeta: "Lai, H. (2026). Comunicación presentada en EAMT 2026.",
+      "The Role of Prompt Language and Translation-Theory-Driven Prompts in Large Language Models: A Case Study on Spanish–Chinese Journalistic Translation",
+    pubEamtMeta:
+      "Lai, H., & Li, W. (2026). En Proceedings of the 26th Annual Conference of the European Association for Machine Translation (EAMT 2026), volumen 1, pp. 927-945.",
     educationEyebrow: "Formacion",
     educationTitle: "Formacion",
     eduPhdDate: "oct. 2023-actualidad",
