@@ -90,7 +90,8 @@ const translations = {
     awardsEyebrow: "Awards and Skills",
     awardsTitle: "Recognition and Skills",
     awardsSubTitle: "Honors",
-    awardYimeng: 'First Prize, "Yimeng Cup" National Translation Paper Competition',
+    awardYimeng:
+      'First Prize in the "Yimeng Cup" National Research Paper Competition in Translation Studies',
     awardOne: "Matrícula de Honor, MA dissertation, Universitat Autònoma de Barcelona, 2023",
     awardTwo:
       "Matrícula de Honor, Research Areas in Translation Studies and Intercultural Studies, 2023",
@@ -190,7 +191,7 @@ const translations = {
     awardsEyebrow: "荣誉与技能",
     awardsTitle: "荣誉与技能",
     awardsSubTitle: "获得荣誉",
-    awardYimeng: "“译梦杯”全国翻译论文大赛一等奖",
+    awardYimeng: "“译梦杯”全国翻译研究论文大赛一等奖",
     awardOne: "硕士论文获 Matrícula de Honor，巴塞罗那自治大学，2023",
     awardTwo: "《翻译研究与跨文化研究方向》课程获 Matrícula de Honor，巴塞罗那自治大学，2023",
     awardThree: "本科毕业论文获西南科技大学优秀毕业论文，2022",
@@ -296,7 +297,8 @@ const translations = {
     awardsEyebrow: "Premios y habilidades",
     awardsTitle: "Reconocimientos y habilidades",
     awardsSubTitle: "Reconocimientos",
-    awardYimeng: 'Primer premio, Concurso Nacional de Artículos sobre Traducción "Yimeng Cup"',
+    awardYimeng:
+      "Primer premio en el Concurso Nacional de Artículos de Investigación en Traductología «Yimeng Cup»",
     awardOne: "Matrícula de Honor, trabajo final de máster, Universitat Autònoma de Barcelona, 2023",
     awardTwo:
       "Matrícula de Honor, Research Areas in Translation Studies and Intercultural Studies, 2023",
