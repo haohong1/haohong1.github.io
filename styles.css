@@ -439,6 +439,11 @@ h3 {
   font-size: clamp(1.45rem, 3vw, 2.3rem);
 }
 
+.publication-list {
+  display: grid;
+  gap: 1rem;
+}
+
 .project-meta {
   margin: 0 0 0.45rem;
   color: var(--wine);

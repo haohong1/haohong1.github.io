@@ -49,6 +49,9 @@ const translations = {
     projectLink: "Project page",
     publicationsEyebrow: "Publications",
     publicationsTitle: "Selected Publications",
+    pubEamtTitle:
+      "The Role of Prompt Language and Translation Theory-Driven Prompts in Large Language Models: A Case Study on Spanish-Chinese Journalistic Translation",
+    pubEamtMeta: "Lai, H. (2026). Conference paper presented at EAMT 2026.",
     educationEyebrow: "Education",
     educationTitle: "Education",
     eduPhdDate: "Oct 2023 - Present",
@@ -84,8 +87,9 @@ const translations = {
     expResearchText:
       "Translated and compiled English and Spanish materials for research deliverables on science and technology awards established by non-governmental institutions.",
     awardsEyebrow: "Awards and Skills",
-    awardsTitle: "Recognition and Competencies",
+    awardsTitle: "Recognition and Skills",
     awardsSubTitle: "Honors",
+    awardYimeng: 'First Prize, "Yimeng Cup" National Translation Paper Competition',
     awardOne: "Matrícula de Honor, MA dissertation, Universitat Autònoma de Barcelona, 2023",
     awardTwo:
       "Matrícula de Honor, Research Areas in Translation Studies and Intercultural Studies, 2023",
@@ -100,7 +104,7 @@ const translations = {
     contactEyebrow: "Contact",
     contactTitle: "Get in touch",
     contactText: "I welcome academic exchange, collaboration, and related inquiries.",
-    footerText: "© 2026 Haohong Lai. Last updated May 2026."
+    footerText: "© 2026 Haohong Lai. Last updated June 2026."
   },
   zh: {
     documentTitle: "赖豪鸿 | 个人学术网站",
@@ -148,6 +152,9 @@ const translations = {
     projectLink: "项目页面",
     publicationsEyebrow: "发表",
     publicationsTitle: "代表性成果",
+    pubEamtTitle:
+      "The Role of Prompt Language and Translation Theory-Driven Prompts in Large Language Models: A Case Study on Spanish-Chinese Journalistic Translation",
+    pubEamtMeta: "Lai, H. (2026). EAMT 2026 会议论文。",
     educationEyebrow: "教育",
     educationTitle: "教育背景",
     eduPhdDate: "2023.10-至今",
@@ -180,8 +187,9 @@ const translations = {
     expResearchMeta: "中国科学院科技战略咨询研究院，2022-2025",
     expResearchText: "为有关非政府机构与组织设立科技奖励的研究项目翻译并整理英文和西班牙语资料。",
     awardsEyebrow: "荣誉与技能",
-    awardsTitle: "荣誉和能力",
+    awardsTitle: "荣誉与技能",
     awardsSubTitle: "获得荣誉",
+    awardYimeng: "“译梦杯”全国翻译论文大赛一等奖",
     awardOne: "硕士论文获 Matrícula de Honor，巴塞罗那自治大学，2023",
     awardTwo: "《翻译研究与跨文化研究方向》课程获 Matrícula de Honor，巴塞罗那自治大学，2023",
     awardThree: "本科毕业论文获西南科技大学优秀毕业论文，2022",
@@ -194,7 +202,7 @@ const translations = {
     contactEyebrow: "联系",
     contactTitle: "欢迎联系",
     contactText: "欢迎就学术交流、合作及相关事宜与我联系。",
-    footerText: "© 2026 赖豪鸿。最后更新：2026 年 5 月。"
+    footerText: "© 2026 赖豪鸿。最后更新：2026 年 6 月。"
   },
   es: {
     documentTitle: "Haohong Lai | Sitio académico",
@@ -246,6 +254,9 @@ const translations = {
     projectLink: "Página del proyecto",
     publicationsEyebrow: "Publicaciones",
     publicationsTitle: "Publicaciones seleccionadas",
+    pubEamtTitle:
+      "The Role of Prompt Language and Translation Theory-Driven Prompts in Large Language Models: A Case Study on Spanish-Chinese Journalistic Translation",
+    pubEamtMeta: "Lai, H. (2026). Comunicación presentada en EAMT 2026.",
     educationEyebrow: "Formacion",
     educationTitle: "Formacion",
     eduPhdDate: "oct. 2023-actualidad",
@@ -280,16 +291,17 @@ const translations = {
     expResearchMeta: "Institutes of Science and Development, Chinese Academy of Sciences, 2022-2025",
     expResearchText:
       "Traducción y compilación de materiales en inglés y español para entregables de investigación sobre premios de ciencia y tecnología creados por instituciones no gubernamentales.",
-    awardsEyebrow: "Premios y competencias",
-    awardsTitle: "Reconocimientos y competencias",
+    awardsEyebrow: "Premios y habilidades",
+    awardsTitle: "Reconocimientos y habilidades",
     awardsSubTitle: "Reconocimientos",
+    awardYimeng: 'Primer premio, Concurso Nacional de Artículos sobre Traducción "Yimeng Cup"',
     awardOne: "Matrícula de Honor, trabajo final de máster, Universitat Autònoma de Barcelona, 2023",
     awardTwo:
       "Matrícula de Honor, Research Areas in Translation Studies and Intercultural Studies, 2023",
     awardThree:
       "Outstanding Undergraduate Thesis Award, Southwest University of Science and Technology, 2022",
     awardFour: "Outstanding Student Leader Award, School of Foreign Languages and Cultures, 2021",
-    skillsSubTitle: "Competencias",
+    skillsSubTitle: "Habilidades",
     skillLanguages: "Lenguas: chino nativo, español DELE C1, inglés B2, catalán A1",
     skillResearch: "Investigación y escritura: Microsoft Office, Zotero, EndNote",
     skillTools: "Agentes de IA: Codex, Claude Code",
@@ -297,7 +309,7 @@ const translations = {
     contactEyebrow: "Contacto",
     contactTitle: "Contacto",
     contactText: "Estoy abierto a intercambios académicos, colaboraciones y consultas relacionadas.",
-    footerText: "© 2026 Haohong Lai. Última actualización: mayo de 2026."
+    footerText: "© 2026 Haohong Lai. Última actualización: junio de 2026."
   }
 };
 
