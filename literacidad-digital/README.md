@@ -65,3 +65,13 @@ Deploy this directory as `literacidad-digital/` within the `haohong1.github.io` 
 Author ORCID: https://orcid.org/0009-0009-6157-6242
 
 The Chinese interface identifies the author as 赖豪鸿; English and Spanish use Haohong Lai. The LT-LiDER source label links to the Spanish project homepage in Spanish, and to the English homepage in English or Chinese.
+
+
+## Corpus length
+
+The research section shows counts for the 34 analysis texts: 134,863 non-Han word/number tokens and 50,905 Han characters, reported separately. Counts include interviewer questions and participant answers, excluding turn-position markers, speaker labels and a transcription editing marker. The word total includes 753 tokens within Chinese texts.
+
+The corpus-size panel displays one selectable bar per text, grouped by predominant analysis language: 22 English, 8 Chinese and 4 Spanish texts. It provides each group's total, median and range, with a common word-count scale for English and Spanish and a separate character-count scale for Chinese. Anonymous text IDs and the written-response marker are shown with lengths; transcripts, names and source paths are not published. Text length is not converted into recording duration. Open the panel directly with `?lang=zh&sample=volume#research`.
+
+- `corpus-volume-data.js`: anonymous counts, independently recomputed from all 34 source texts.
+- `corpus-volume.js` / `corpus-volume.css`: trilingual summary, interactive distributions and counting explanation.

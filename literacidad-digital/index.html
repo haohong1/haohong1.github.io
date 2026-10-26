@@ -11,12 +11,15 @@
   <link rel="stylesheet" href="concept-book.css">
   <link rel="stylesheet" href="concept-models.css">
   <link rel="stylesheet" href="research-interaction.css">
+  <link rel="stylesheet" href="corpus-volume.css">
   <script src="content.js" defer></script>
   <script src="task-content.js" defer></script>
   <script src="data.js" defer></script>
   <script src="concept-story.js" defer></script>
   <script src="concept-models.js" defer></script>
   <script src="concept-book.js" defer></script>
+  <script src="corpus-volume-data.js" defer></script>
+  <script src="corpus-volume.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -64,7 +67,7 @@
     <section id="research" class="section research-section">
       <div class="section-label"><span>03</span><span data-i18n="researchLabel">LA INVESTIGACIÓN</span><span class="rule"></span></div>
       <div class="section-intro"><h2 data-i18n="researchTitle">Escuchar la práctica.<br>Construir el marco.</h2><p data-i18n="researchIntro">La propuesta conecta la reflexión teórica con un análisis cualitativo de entrevistas. Las tareas sirven como punto de encuentro entre lo que las personas cuentan y las capacidades que se identifican.</p></div>
-      <div class="research-data"><div class="sample-total"><strong>34<span class="small-star" aria-hidden="true">✳</span></strong><h3 data-i18n="interviewTexts">textos de entrevistas</h3><p data-i18n="sampleNote">El corpus incluye una entrevista conjunta y una respuesta escrita. El número indica textos, no participantes.</p></div><div class="sample-chart"><div class="tabs sample-tabs" role="tablist" aria-label="Sample"><button role="tab" aria-selected="true" data-chart="origin" data-i18n="chartOrigin">Procedencia</button><button role="tab" aria-selected="false" data-chart="profiles" data-i18n="chartProfiles">Perfiles</button><button role="tab" aria-selected="false" data-chart="languages" data-i18n="chartLanguages">Lenguas</button></div><div id="sample-chart-content"></div></div></div>
+      <div class="research-data"><div class="sample-total"><strong>34<span class="small-star" aria-hidden="true">✳</span></strong><h3 data-i18n="interviewTexts">textos de entrevistas</h3><p data-i18n="sampleNote">El corpus incluye una entrevista conjunta y una respuesta escrita. El número indica textos, no participantes.</p><div id="corpus-volume-summary"></div></div><div class="sample-chart"><div class="tabs sample-tabs" role="tablist" aria-label="Sample"><button role="tab" aria-selected="true" data-chart="origin" data-i18n="chartOrigin">Procedencia</button><button role="tab" aria-selected="false" data-chart="profiles" data-i18n="chartProfiles">Perfiles</button><button role="tab" aria-selected="false" data-chart="languages" data-i18n="chartLanguages">Lenguas</button><button role="tab" aria-selected="false" data-chart="volume" data-i18n="chartVolume">Extensión</button></div><div id="sample-chart-content"></div></div></div>
       <div class="method-heading"><h3 data-i18n="methodTitle">Cómo toma forma el marco</h3><p data-i18n="methodHint">Cinco operaciones conectadas, con revisión y retorno a las evidencias.</p></div>
       <div class="method-layout"><div class="method-steps" id="method-steps" role="tablist" aria-label="Analysis process"></div><div class="method-panel" id="method-panel" role="tabpanel"></div></div>
     </section>

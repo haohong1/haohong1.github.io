@@ -9,7 +9,7 @@
  const unique = arr => [...new Set(arr)];
  const chaById = new Map(D.cha.map(x=>[x.id,x])), capById = new Map(D.competencies.map(x=>[x.id,x])), taskById = new Map(D.tasks.map(x=>[x.id,x]));
  const params = new URLSearchParams(location.search);
- const state = {lang:['es','en','zh'].includes(params.get('lang'))?params.get('lang'):'es', concept:0,lens:0,primer:'C',view:'tasks',query:'',taskQuery:'',selectedTask:taskById.has(params.get('task'))?params.get('task'):'T25',task:'',type:'',capFilter:'',selectedCap:D.competencies.find(x=>x.number===9).id,selectedEdge:'C-R010',page:1,chart:'origin',method:0,dialog:null};
+ const state = {lang:['es','en','zh'].includes(params.get('lang'))?params.get('lang'):'es', concept:0,lens:0,primer:'C',view:'tasks',query:'',taskQuery:'',selectedTask:taskById.has(params.get('task'))?params.get('task'):'T25',task:'',type:'',capFilter:'',selectedCap:D.competencies.find(x=>x.number===9).id,selectedEdge:'C-R010',page:1,chart:['origin','profiles','languages','volume'].includes(params.get('sample'))?params.get('sample'):'origin',method:0,dialog:null};
  const t = key => C[state.lang][key];
  const label = x => x?.[state.lang] || x?.es || '';
  const marker = type => `<i class="type-marker ${esc(type)}" aria-label="${esc(t({C:'knowledge',H:'skills',A:'attitudes'}[type]))}">${esc(type)}</i>`;
@@ -124,6 +124,9 @@
  function renderChart(){
   $$('.sample-tabs button').forEach(b=>{const on=b.dataset.chart===state.chart;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;});
   const target=$('#sample-chart-content');
+  const volume=window.CorpusVolume;
+  if(volume)$('#corpus-volume-summary').innerHTML=volume.summary(state.lang);
+  if(state.chart==='volume'&&volume){target.innerHTML=volume.render(state.lang);volume.mount(target,state.lang);return;}
   const numbers={origin:[22,12],profiles:[11,8,16,8],languages:[22,8,4]}[state.chart];
   const keys={origin:['originLabels','originNote'],profiles:['profileLabels','profileNote'],languages:['languageLabels','languageNote']}[state.chart];
   const projectURL=state.lang==='es'?'https://lt-lider.eu/es/home-espanol/':'https://lt-lider.eu/';
@@ -190,7 +193,7 @@
   if(b.dataset.task){browseTask(b.dataset.task);return;}
   if(b.dataset.openCap){closeDialog();reset();state.selectedCap=b.dataset.openCap;state.view='competencies';renderExplorer();$('.competency-item.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.openEdge){closeDialog();reset();state.selectedEdge=b.dataset.openEdge;state.view='development';renderExplorer();$('.edge-button.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
-  if(b.dataset.chart){state.chart=b.dataset.chart;renderChart();return;}
+  if(b.dataset.chart){state.chart=b.dataset.chart;renderChart();try{const url=new URL(location.href);if(state.chart==='origin')url.searchParams.delete('sample');else url.searchParams.set('sample',state.chart);history.replaceState(null,'',url);}catch{}$('.sample-tabs button[aria-selected="true"]')?.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});return;}
   if(b.dataset.method!==undefined){state.method=Number(b.dataset.method);renderMethod();$(`[data-method="${state.method}"]`).focus({preventScroll:true});return;}
   if(b.dataset.sources){if(b.dataset.sources!=='research'&&window.ConceptStory?.openReferences){window.ConceptStory.openReferences();}else showDialog('sources',b.dataset.sources);return;}
   if(b.dataset.action==='reset'){const fromResults=!!b.closest('#explorer-content');reset();if(fromResults)$('#framework-search').focus({preventScroll:true});return;}
