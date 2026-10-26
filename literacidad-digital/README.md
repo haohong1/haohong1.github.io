@@ -38,7 +38,7 @@ The public data contain research labels, identifiers, task and stage mappings, c
 - `app.js`: language switching, filtering, relationship views and detail dialogs.
 - `concept-story.js`: the complete trilingual book and its bibliography.
 - `concept-book.js` / `concept-book.css`: pagination, paper-turn animation, bookmarks, citations and reading-position return.
-- `concept-models.js` / `concept-models.css`: accessible interactive models of the four dimensions and the two-way, asymmetric bridges. The bridge overview shows all five domain literacies and an open extension together, with selectable connections and a connected mobile layout.
+- `concept-models.js` / `concept-models.css`: accessible interactive models of the four dimensions and the two-way, asymmetric bridges. The bridge model is explicitly framed from translation studies. Its two-sided layout keeps all five domain literacies and an open extension visible; animated paired paths show recontextualisation and reflective feedback. Direction controls, pause, reduced-motion support and responsive connections accompany the domain explorer. Domain, direction and manual pause choices survive book reflow and language changes.
 - `research-interaction.css`: connected task/competency nodes and the interactive research path.
 - `favicon.svg`: site icon.
 
