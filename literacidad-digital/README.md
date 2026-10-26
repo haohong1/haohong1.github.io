@@ -19,10 +19,12 @@ Language links use `?lang=es`, `?lang=en` or `?lang=zh`. A CHA record can be ope
 - **34 interview texts**: 22 authorized LT-LiDER texts and 12 collected by the researcher. The corpus includes a joint interview and a written response; 34 is not a count of participants.
 - **Analysis-text languages**: 22 English, 8 Chinese and 4 Spanish. This distribution includes original texts and translations and does not identify participants’ nationality or all original interview languages.
 - Professional-background counts are **overlapping labels on interview records**: language services 11, professional translation 8, translation teaching 16 and language teaching 8.
-- **44 tasks; 535 integrated CHA**: 226 knowledge, 249 skill and 60 attitude statements.
-- **31 development relations**: 20 between knowledge statements, 6 between skills and 5 between attitudes. Every relation retains a task and stage. These are analytical relations, not observed individual learning sequences or universal proficiency levels.
-- **15 competencies and 615 nonexclusive memberships**. A CHA can contribute to several competencies, and a task can call upon only some of a competency’s members.
-- The methods section distinguishes **809 unique source CHA** from **843 source/ task/ context records**. Counts describe the corpus and analysis; they do not measure importance or support statistical generalization.
+- **44 tasks; 648 integrated CHA**: 299 knowledge, 278 skill and 71 attitude statements.
+- **40 development relations**: 28 between knowledge statements, 6 between skills and 6 between attitudes. Every relation retains a task and stage. These are analytical relations, not observed individual learning sequences or universal proficiency levels.
+- **15 competencies and 809 nonexclusive memberships**. A CHA can contribute to several competencies, and a task can call upon only some of a competency’s members.
+- The methods section distinguishes **1121 unique source CHA** from **1221 source/ task/ context records**. Counts describe the corpus and analysis; they do not measure importance or support statistical generalization.
+
+The 26 October review covers all 34 interviews and 44 tasks, including omitted statements and withdrawn links. It leaves 82 candidate source-to-task links pending because their stage is not sufficiently supported; these are excluded from the formal dataset. This pending-link count is separate from the 40 confirmed development relations. T14 now activates 3 integrated CHA, backed by 4 source CHA, within 1 competency. Stages 3–5 are synchronized.
 
 The country view is withheld: four participants could not be reliably assigned to a work or institution country at the time of interview. The roster audit confirms 34 interview texts and 35 participants, including one two-person interview. The public site does not publish participant identities or an incomplete country distribution.
 
