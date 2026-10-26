@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f1e9">
+  <meta name="description" content="Una exploración de la literacidad digital desde la traducción, con aportaciones de la enseñanza de lenguas. Investigación doctoral de Haohong Lai.">
+  <title>Literacidad digital · Haohong Lai</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="content.js" defer></script>
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#concepts" data-i18n="skip">Saltar al contenido</a>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Literacidad digital"><span class="brand-mark" aria-hidden="true">l<span>d</span></span><span class="brand-name" data-i18n="brand">Literacidad digital</span></a>
+    <nav class="main-nav" aria-label="Principal"><a href="#concepts" data-i18n="navConcepts">Conceptos</a><a href="#framework" data-i18n="navFramework">El marco</a><a href="#research" data-i18n="navResearch">La investigación</a><a href="#publications" data-i18n="navPublications">Publicaciones</a></nav>
+    <div class="language-switch" role="group" aria-label="Language"><button data-lang="es" aria-pressed="true">ES</button><button data-lang="en" aria-pressed="false">EN</button><button data-lang="zh" aria-pressed="false">中文</button></div>
+  </header>
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-topline"><span data-i18n="heroEyebrow">UNA EXPLORACIÓN SOBRE LA LITERACIDAD DIGITAL</span><span class="tiny-star" aria-hidden="true">✳</span></div>
+      <div class="hero-questions">
+        <h1 class="hero-question question-one"><span class="question-index" aria-hidden="true">01</span><span data-i18n="question1">¿Qué significa tener<br>literacidad digital?</span></h1>
+        <p class="hero-question question-two"><span class="question-index" aria-hidden="true">02</span><span data-i18n="question2">¿Es la literacidad digital<br>la forma digital de la literacidad?</span></p>
+        <p class="hero-question question-three"><span class="question-index" aria-hidden="true">03</span><span data-i18n="question3">¿Qué es, entonces, la literacidad?</span></p>
+      </div>
+      <div class="hero-bottom"><a class="button primary" href="#concepts"><span data-i18n="exploreConcept">Explorar el concepto</span><span aria-hidden="true">↗</span></a><span class="hero-author">Haohong Lai <span class="dot">·</span> <span data-i18n="doctoralResearch">Investigación doctoral</span></span><a href="#concepts" class="scroll-cue" aria-label="Scroll"><span aria-hidden="true">↓</span></a></div>
+      <div class="hero-line" aria-hidden="true"></div>
+    </section>
+
+    <section id="concepts" class="section concepts-section">
+      <div class="section-label"><span>01</span><span data-i18n="conceptLabel">LOS CONCEPTOS</span><span class="rule"></span></div>
+      <div class="section-intro"><h2 data-i18n="conceptTitle">Volvamos a<br>la primera palabra.</h2><p data-i18n="conceptIntro">Antes de explorar lo digital, detengámonos en la literacidad: una manera de comprender y participar en prácticas que compartimos con otras personas.</p></div>
+      <div class="concept-tabs tabs" role="tablist" aria-label="Concepts"><button role="tab" id="concept-tab-0" aria-selected="true" data-concept="0" data-i18n="conceptTab0">La literacidad</button><button role="tab" id="concept-tab-1" aria-selected="false" data-concept="1" data-i18n="conceptTab1">Lo digital</button><button role="tab" id="concept-tab-2" aria-selected="false" data-concept="2" data-i18n="conceptTab2">Las capacidades</button></div>
+      <div class="concept-panel" role="tabpanel" aria-labelledby="concept-tab-0" id="concept-panel"></div>
+      <button class="text-button source-trigger" data-sources="concepts"><span data-i18n="conceptSources">Las ideas detrás de esta explicación</span><span aria-hidden="true">↗</span></button>
+    </section>
+
+    <section class="bridge-section" aria-labelledby="bridge-title">
+      <div class="bridge-copy"><span class="eyebrow" data-i18n="bridgeEyebrow">DE LOS CONCEPTOS A LA PRÁCTICA</span><h2 id="bridge-title" data-i18n="bridgeTitle">Una tarea.<br>Distintas formas<br>de estar preparado.</h2><p data-i18n="bridgeText">Al traducir, enseñar o trabajar con tecnologías del lenguaje, ponemos en juego conocimientos, habilidades y actitudes. El marco permite explorar cómo se relacionan con tareas concretas.</p></div>
+      <div class="cha-primer" role="group" aria-label="CHA"><button class="primer-row active" data-primer="C"><span class="primer-letter">C</span><span><strong data-i18n="knowledge">Conocimientos</strong><small data-i18n="knowledgePrompt">Lo que necesitamos comprender</small></span><span class="primer-plus" aria-hidden="true">−</span></button><p class="primer-explanation" id="primer-explanation"></p><button class="primer-row" data-primer="H"><span class="primer-letter">H</span><span><strong data-i18n="skills">Habilidades</strong><small data-i18n="skillsPrompt">Lo que necesitamos saber hacer</small></span><span class="primer-plus" aria-hidden="true">+</span></button><button class="primer-row" data-primer="A"><span class="primer-letter">A</span><span><strong data-i18n="attitudes">Actitudes</strong><small data-i18n="attitudesPrompt">Cómo nos posicionamos y actuamos</small></span><span class="primer-plus" aria-hidden="true">+</span></button><p class="primer-note" data-i18n="chaNote">CHA corresponde a las iniciales en español. Las tres dimensiones se consideran en su contexto de práctica.</p></div>
+    </section>
+
+    <section id="framework" class="section framework-section">
+      <div class="section-label"><span>02</span><span data-i18n="frameworkLabel">EL MARCO</span><span class="rule"></span><span class="version-tag" data-i18n="workingVersion">Versión de trabajo</span></div>
+      <div class="section-intro"><h2 data-i18n="frameworkTitle">Un marco abierto<br>a la exploración.</h2><p data-i18n="frameworkIntro">Desde la traducción, con aportaciones de la enseñanza de lenguas. Explora las capacidades identificadas y las relaciones que tienen sentido en cada tarea.</p></div>
+      <div class="framework-numbers"><div><strong>15</strong><span data-i18n="competencies">competencias</span></div><div><strong>535</strong><span data-i18n="integratedCHA">CHA integrados</span></div><div><strong>44</strong><span data-i18n="tasks">tareas</span></div><div><strong>31</strong><span data-i18n="developmentRelations">relaciones de desarrollo</span></div></div>
+      <div class="explorer">
+        <div class="explorer-toolbar"><div class="framework-tabs tabs" role="tablist" aria-label="Framework views"><button role="tab" aria-selected="true" data-view="competencies" data-i18n="viewCompetencies">Competencias</button><button role="tab" aria-selected="false" data-view="cha" data-i18n="viewCHA">Explorar CHA</button><button role="tab" aria-selected="false" data-view="development" data-i18n="viewDevelopment">Relaciones de desarrollo</button></div><button class="text-button reset-button" data-action="reset" data-i18n="reset">Restablecer</button></div>
+        <div class="explorer-filters"><label class="search-control"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.5"></circle><path d="m16 16 5 5"></path></svg><input type="search" id="framework-search" autocomplete="off" data-placeholder="searchPlaceholder" aria-label="Search"></label><label class="task-control"><span data-i18n="filterTask">Tarea</span><select id="task-filter" aria-label="Task"></select></label></div>
+        <div id="explorer-content" class="explorer-content"></div>
+        <div class="explorer-bottom"><span id="result-count" role="status" aria-live="polite"></span><span data-i18n="dataDate">Datos de trabajo · octubre de 2026</span></div>
+      </div>
+      <p class="section-footnote" data-i18n="frameworkCaution">Este marco recoge el estado actual del análisis. Las competencias pueden compartir CHA; las relaciones de desarrollo se interpretan dentro de tareas y etapas concretas.</p>
+    </section>
+
+    <section id="research" class="section research-section">
+      <div class="section-label"><span>03</span><span data-i18n="researchLabel">LA INVESTIGACIÓN</span><span class="rule"></span></div>
+      <div class="section-intro"><h2 data-i18n="researchTitle">Escuchar la práctica.<br>Construir el marco.</h2><p data-i18n="researchIntro">La propuesta conecta la reflexión teórica con un análisis cualitativo de entrevistas. Las tareas sirven como punto de encuentro entre lo que las personas cuentan y las capacidades que se identifican.</p></div>
+      <div class="research-data"><div class="sample-total"><strong>34<span class="small-star" aria-hidden="true">✳</span></strong><h3 data-i18n="interviewTexts">textos de entrevistas</h3><p data-i18n="sampleNote">El corpus incluye una entrevista conjunta y una respuesta escrita. El número indica textos, no participantes.</p></div><div class="sample-chart"><div class="tabs sample-tabs" role="tablist" aria-label="Sample"><button role="tab" aria-selected="true" data-chart="origin" data-i18n="chartOrigin">Procedencia</button><button role="tab" aria-selected="false" data-chart="profiles" data-i18n="chartProfiles">Perfiles</button><button role="tab" aria-selected="false" data-chart="languages" data-i18n="chartLanguages">Lenguas</button></div><div id="sample-chart-content"></div></div></div>
+      <p class="geo-note" data-i18n="geographyNote">La distribución por países se incorporará tras confirmar la información y el criterio geográfico.</p>
+      <div class="method-heading"><h3 data-i18n="methodTitle">Cómo toma forma el marco</h3><p data-i18n="methodHint">Cinco operaciones conectadas, con revisión y retorno a las evidencias.</p></div>
+      <div class="method-layout"><div class="method-steps" id="method-steps" role="tablist" aria-label="Analysis process"></div><div class="method-panel" id="method-panel" role="tabpanel"></div></div>
+      <button class="text-button source-trigger" data-sources="research"><span data-i18n="researchSources">Sobre los datos y su lectura</span><span aria-hidden="true">↗</span></button>
+    </section>
+
+    <section id="publications" class="section publications-section"><div class="section-label"><span>04</span><span data-i18n="publicationsLabel">PUBLICACIONES</span><span class="rule"></span></div><div class="publication-empty"><span class="publication-symbol" aria-hidden="true">↗</span><div><h2 data-i18n="publicationsTitle">La investigación continúa.</h2><p data-i18n="publicationsText">Los trabajos académicos relacionados con este proyecto se incorporarán aquí.</p></div></div></section>
+  </main>
+  <footer class="site-footer"><div><a class="footer-name" href="#home">Haohong Lai</a><p data-i18n="footerDescription">Literacidad digital desde la traducción<br>Investigación doctoral en curso</p></div><div class="footer-links"><button class="text-button" data-sources="all" data-i18n="references">Fuentes y referencias</button><a href="https://github.com/haohong1/haohong1.github.io/tree/main/literacidad-digital" target="_blank" rel="noopener">GitHub ↗</a><a href="#home" data-i18n="backTop">Volver al inicio ↑</a></div><div class="footer-bottom"><span data-i18n="footerVersion">Primera versión para explorar y conversar · 2026</span><span>ES / EN / 中文</span></div></footer>
+  <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-heading"><span id="dialog-eyebrow"></span><button id="close-dialog" class="close-button" aria-label="Close">×</button></div><div id="dialog-body"></div></dialog>
+  <noscript><p class="noscript-message">Activa JavaScript para explorar el marco y cambiar el idioma. / Enable JavaScript to explore the framework. / 请启用 JavaScript 以浏览框架。</p></noscript>
+</body>
+</html>
