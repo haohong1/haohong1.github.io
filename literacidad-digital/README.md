@@ -8,9 +8,11 @@ This is a **working version for discussion**, based on the research snapshot of 
 
 ## Languages and content
 
-Spanish is the default language. English and Chinese share the same records and identifiers. The site includes three opening questions, concept exploration, a searchable framework with task filters, contextual development relations, and an explanation of the research process. Spanish analysis wording is retained for comparison with translated CHA labels.
+Spanish is the default language. English and Chinese share the same records and identifiers. The site includes three opening questions, concept exploration, a task directory, a searchable framework, contextual development relations, and an explanation of the research process. Spanish analysis wording is retained for comparison with translated CHA labels.
 
-Language links use `?lang=es`, `?lang=en` or `?lang=zh`. A CHA record can be opened directly with, for example, `?lang=en&cha=CI0149`.
+The concept sequence explains literacy, digital literacy, how literacy manifests through competencies, and how competencies bring knowledge, skills and attitudes together. The task directory is the default framework entry point: choose one of 44 tasks to see its competency combination, then open a competency to inspect only the CHA linked to that task. Counts on each competency card use task-specific realization records; the total CHA count deduplicates shared items. Task stages are shown at task level.
+
+Language links use `?lang=es`, `?lang=en` or `?lang=zh`. A CHA record can be opened directly with, for example, `?lang=en&cha=CI0149`. A task can be opened with `?lang=zh&task=T25#framework`.
 
 ## Data and interpretation
 
@@ -31,6 +33,7 @@ The public data contain research labels, identifiers, task and stage mappings, c
 - `index.html`: page structure and metadata.
 - `styles.css`: responsive layout, typography and motion settings.
 - `content.js`: Spanish, English and Chinese interface and explanatory text.
+- `task-content.js`: trilingual task-directory interface text.
 - `data.js`: public research snapshot and translated record labels.
 - `app.js`: language switching, filtering, relationship views and detail dialogs.
 - `favicon.svg`: site icon.
@@ -43,6 +46,6 @@ This is a static HTML, CSS and JavaScript site with no build step, package insta
 python -m http.server 4173 --bind 127.0.0.1
 ```
 
-Then visit `http://127.0.0.1:4173/`. JavaScript enables the framework explorer and language switching. Newsreader is requested from Google Fonts; local serif fallbacks remain available when it cannot load. Chinese text uses available Song-style system fonts.
+Then visit `http://127.0.0.1:4173/`. JavaScript enables the framework explorer and language switching. Newsreader is requested from Google Fonts; local serif fallbacks remain available when it cannot load. The font stack is shared across all languages: Latin characters and numbers retain Newsreader, while Chinese glyphs fall back to available Song-style system fonts.
 
 Deploy this directory as `literacidad-digital/` within the `haohong1.github.io` GitHub Pages repository. All site asset paths are relative to that directory.

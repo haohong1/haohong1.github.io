@@ -9,7 +9,7 @@
  const unique = arr => [...new Set(arr)];
  const chaById = new Map(D.cha.map(x=>[x.id,x])), capById = new Map(D.competencies.map(x=>[x.id,x])), taskById = new Map(D.tasks.map(x=>[x.id,x]));
  const params = new URLSearchParams(location.search);
- const state = {lang:['es','en','zh'].includes(params.get('lang'))?params.get('lang'):'es', concept:0,lens:0,primer:'C',view:'competencies',query:'',task:'',type:'',capFilter:'',selectedCap:D.competencies.find(x=>x.number===9).id,selectedEdge:'C-R010',page:1,chart:'origin',method:0,dialog:null};
+ const state = {lang:['es','en','zh'].includes(params.get('lang'))?params.get('lang'):'es', concept:0,lens:0,primer:'C',view:'tasks',query:'',taskQuery:'',selectedTask:taskById.has(params.get('task'))?params.get('task'):'T25',task:'',type:'',capFilter:'',selectedCap:D.competencies.find(x=>x.number===9).id,selectedEdge:'C-R010',page:1,chart:'origin',method:0,dialog:null};
  const t = key => C[state.lang][key];
  const label = x => x?.[state.lang] || x?.es || '';
  const marker = type => `<i class="type-marker ${esc(type)}" aria-label="${esc(t({C:'knowledge',H:'skills',A:'attitudes'}[type]))}">${esc(type)}</i>`;
@@ -25,6 +25,27 @@
  const searchableCHA = x => norm([allText(x),...taskIdsForCha(x.id).map(id=>allText(taskById.get(id)))].join(' '));
  const chaSearch = new Map(D.cha.map(x=>[x.id,searchableCHA(x)]));
  const matchesCHA = (x,q) => (state.task?norm(allText(x)+' '+allText(taskById.get(state.task))):chaSearch.get(x.id)).includes(q);
+ const taskCHA = task => unique(D.contexts.filter(x=>x.task===task).map(x=>x.cha)).map(id=>chaById.get(id));
+ const taskCapCHA = (task,cap) => unique(D.competencyContexts.filter(x=>x.task===task&&x.competency===cap).map(x=>x.cha)).map(id=>chaById.get(id));
+ const taskCaps = task => D.competencies.filter(c=>D.competencyTasks.some(x=>x.task===task&&x.competency===c.id));
+ const countsMarkup = items => ['C','H','A'].map(type=>`<span>${marker(type)} ${items.filter(x=>x.type===type).length}</span>`).join('');
+
+ function renderTaskDirectory(){
+  const tasks=D.tasks.filter(x=>!state.taskQuery||norm(allText(x)).includes(norm(state.taskQuery)));
+  $('#result-count').textContent=`${tasks.length} / ${D.tasks.length} ${t('taskCount')}`;
+  if(!tasks.length){$('#explorer-content').innerHTML=`<div class="empty-state"><p>${esc(t('taskNoResults'))}</p><button class="text-button" data-action="reset">${esc(t('taskClearSearch'))}</button></div>`;return;}
+  if(!tasks.some(x=>x.id===state.selectedTask))state.selectedTask=tasks[0].id;
+  const task=taskById.get(state.selectedTask),caps=taskCaps(task.id),items=taskCHA(task.id),stages=unique(D.contexts.filter(x=>x.task===task.id).map(x=>x.stage));
+  $('#explorer-content').innerHTML=`<div class="task-directory-intro"><span class="detail-kicker">${esc(t('taskDirectory'))}</span><h3>${esc(t('taskDirectoryHint'))}</h3><p>${esc(t('taskDirectoryText'))}</p></div><div class="task-directory-layout"><div class="task-directory-list" role="group" aria-label="${esc(t('viewTasks'))}">${tasks.map(x=>`<button class="directory-task ${x.id===task.id?'active':''}" data-directory-task="${esc(x.id)}" aria-pressed="${x.id===task.id}"><span class="task-code">${esc(x.id)}</span><span>${esc(label(x))}</span><span class="directory-arrow" aria-hidden="true">↗</span></button>`).join('')}</div><div class="task-detail fade-in"><p class="detail-kicker">${esc(t('taskLabel'))} <span>${esc(task.id)}</span></p><h3>${esc(label(task))}</h3><div class="task-summary"><span><strong>${caps.length}</strong> ${esc(t(caps.length===1?'taskCompetencyOne':'taskCompetencies'))}</span><span><strong>${items.length}</strong> ${esc(t('taskCHA'))}</span></div><p class="detail-subtitle">${esc(t('taskStages'))}</p><div class="task-stage-list">${stages.map(s=>`<span>${esc(stageLabel(s))}</span>`).join('')}</div><div class="task-combination-heading"><h4>${esc(t('taskCombination'))}</h4><p>${esc(t('taskCombinationText'))}</p></div><div class="task-combination">${caps.map(c=>`<button class="task-cap-card" data-task-cap="${esc(c.id)}" data-context-task="${esc(task.id)}"><span class="task-cap-heading"><span class="item-index">${String(c.number).padStart(2,'0')}</span><span>${esc(label(c))}</span><span aria-hidden="true">↗</span></span><span class="task-cap-bottom"><span class="type-counts">${countsMarkup(taskCapCHA(task.id,c.id))}</span><span class="task-cap-link">${esc(t('taskCapButton'))}</span></span></button>`).join('')||`<p>${esc(t('taskNoMapping'))}</p>`}</div><button class="text-button task-all-cha" data-task-cha="${esc(task.id)}">${esc(t('taskCHAButton'))}<span aria-hidden="true">↗</span></button><p class="task-scope-note">${esc(t('taskScopeNote'))}</p></div></div>`;
+  const active=$('.directory-task.active'),list=$('.task-directory-list');
+  if(active)list.scrollTop=Math.max(0,active.offsetTop-list.offsetTop-list.clientHeight/3);
+ }
+
+ function browseTask(id){
+  state.selectedTask=id;state.taskQuery='';state.view='tasks';state.task='';state.query='';state.capFilter='';state.type='';state.page=1;
+  if($('#detail-dialog').open)closeDialog();
+  renderExplorer();$('.directory-task.active')?.focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});
+ }
 
  function renderConcept(){
   const c=t('concepts')[state.concept];
@@ -71,7 +92,7 @@
   if(state.task){const scope=new Set(D.competencyContexts.filter(x=>x.competency===selected.id&&x.task===state.task).map(x=>x.cha));items=items.filter(x=>scope.has(x.id));}
   const sample=['C','H','A'].flatMap(type=>items.filter(x=>x.type===type).slice(0,1));
   const description=state.lang==='es'?selected.description:selected[state.lang==='en'?'descriptionEn':'descriptionZh'];
-  $('#explorer-content').innerHTML=`<div class="competency-layout"><div class="competency-list" role="group" aria-label="${esc(t('viewCompetencies'))}">${caps.map(x=>`<button class="competency-item ${x.id===selected.id?'active':''}" data-cap="${esc(x.id)}" aria-pressed="${x.id===selected.id}"><span class="item-index">${String(x.number).padStart(2,'0')}</span><span class="item-title">${esc(label(x))}</span></button>`).join('')}</div><div class="competency-detail"><p class="detail-kicker">${esc(t('competencyLabel'))} ${String(selected.number).padStart(2,'0')}</p><h3>${esc(label(selected))}</h3><p class="competency-description">${esc(description)}</p><div class="type-counts">${['C','H','A'].map(type=>`<span>${marker(type)} ${items.filter(x=>x.type===type).length}</span>`).join('')}</div><p class="detail-subtitle">${esc(t('includedCHA'))}</p>${sample.map(miniCHA).join('')}<button class="text-button view-all" data-all-cap="${esc(selected.id)}">${esc(t('viewAllCHA'))}<span aria-hidden="true">↗</span></button><p class="detail-subtitle">${esc(t('relatedTasks'))}</p><div class="task-chips">${taskChips(taskIdsForCap(selected.id))}</div></div></div>`;
+  $('#explorer-content').innerHTML=`<div class="competency-layout"><div class="competency-list" role="group" aria-label="${esc(t('viewCompetencies'))}">${caps.map(x=>`<button class="competency-item ${x.id===selected.id?'active':''}" data-cap="${esc(x.id)}" aria-pressed="${x.id===selected.id}"><span class="item-index">${String(x.number).padStart(2,'0')}</span><span class="item-title">${esc(label(x))}</span></button>`).join('')}</div><div class="competency-detail"><p class="detail-kicker">${esc(t('competencyLabel'))} ${String(selected.number).padStart(2,'0')}</p><h3>${esc(label(selected))}</h3><p class="competency-description">${esc(description)}</p><div class="type-counts">${['C','H','A'].map(type=>`<span>${marker(type)} ${items.filter(x=>x.type===type).length}</span>`).join('')}</div><p class="detail-subtitle">${esc(t(state.task?'taskScopedCHA':'includedCHA'))}</p>${sample.map(miniCHA).join('')}<button class="text-button view-all" data-all-cap="${esc(selected.id)}">${esc(t(state.task?'taskScopedAll':'viewAllCHA'))}<span aria-hidden="true">↗</span></button><p class="detail-subtitle">${esc(t('relatedTasks'))}</p><div class="task-chips">${taskChips(taskIdsForCap(selected.id))}</div></div></div>`;
   const selectedItem=$('.competency-item.active'),capList=$('.competency-list');capList.scrollTop=Math.max(0,selectedItem.offsetTop-capList.offsetTop-capList.clientHeight/3);
   $('#result-count').textContent=`${caps.length} ${t('competencies')}`;
  }
@@ -100,7 +121,11 @@
  }
  function renderExplorer(){
   $$('.framework-tabs button').forEach(b=>{const on=b.dataset.view===state.view;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;});
-  ({competencies:renderCompetencies,cha:renderCHA,development:renderDevelopment})[state.view]();
+  const directory=state.view==='tasks',search=$('#framework-search');
+  search.value=directory?state.taskQuery:state.query;search.placeholder=t(directory?'taskSearch':'searchPlaceholder');search.setAttribute('aria-label',search.placeholder);
+  $('.task-control').hidden=directory;$('#task-filter').value=state.task;
+  ({tasks:renderTaskDirectory,competencies:renderCompetencies,cha:renderCHA,development:renderDevelopment})[state.view]();
+  if(!directory&&state.task)$('#explorer-content').insertAdjacentHTML('afterbegin',`<div class="task-context-banner"><span>${esc(state.task)} · ${esc(label(taskById.get(state.task)))}</span><button class="text-button" data-browse-task="${esc(state.task)}">← ${esc(t('taskBack'))}</button></div>`);
  }
  function renderChart(){
   $$('.sample-tabs button').forEach(b=>{const on=b.dataset.chart===state.chart;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;});
@@ -146,30 +171,34 @@
   try{const url=new URL(location.href);url.searchParams.set('lang',lang);history.replaceState(null,'',url);}catch{}
   window.scrollTo({top:anchor?window.scrollY+anchor.getBoundingClientRect().top-anchorOffset:y,behavior:'instant'});
  }
- function reset(){state.query='';state.task='';state.type='';state.capFilter='';state.page=1;$('#framework-search').value='';$('#task-filter').value='';renderExplorer();}
+ function reset(){state.query='';state.taskQuery='';state.task='';state.type='';state.capFilter='';state.page=1;$('#framework-search').value='';$('#task-filter').value='';renderExplorer();}
  document.addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
   if(b.dataset.lang){setLanguage(b.dataset.lang);return;}
   if(b.dataset.concept!==undefined){state.concept=Number(b.dataset.concept);renderConcept();return;}
   if(b.dataset.lens!==undefined){state.lens=Number(b.dataset.lens);renderConcept();$(`[data-lens="${state.lens}"]`).focus({preventScroll:true});return;}
   if(b.dataset.primer){state.primer=b.dataset.primer;renderPrimer();return;}
-  if(b.dataset.view){state.view=b.dataset.view;state.page=1;state.type='';state.capFilter='';renderExplorer();return;}
+  if(b.dataset.view){state.view=b.dataset.view;if(state.view==='tasks'){if(state.task)state.selectedTask=state.task;state.task='';state.query='';state.taskQuery='';}state.page=1;state.type='';state.capFilter='';renderExplorer();return;}
+  if(b.dataset.directoryTask){const list=$('.task-directory-list'),scroll=list.scrollTop;state.selectedTask=b.dataset.directoryTask;renderExplorer();$('.task-directory-list').scrollTop=scroll;$('.directory-task.active').focus({preventScroll:true});return;}
+  if(b.dataset.browseTask){browseTask(b.dataset.browseTask);return;}
+  if(b.dataset.taskCap){state.task=b.dataset.contextTask;state.selectedCap=b.dataset.taskCap;state.query='';state.type='';state.capFilter='';state.view='competencies';renderExplorer();$('.competency-item.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
+  if(b.dataset.taskCha){state.task=b.dataset.taskCha;state.query='';state.type='';state.capFilter='';state.page=1;state.view='cha';renderExplorer();$('.cha-row')?.focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.cap){const list=$('.competency-list'),scroll=list.scrollTop;state.selectedCap=b.dataset.cap;renderExplorer();$('.competency-list').scrollTop=scroll;$(`[data-cap="${state.selectedCap}"]`).focus({preventScroll:true});return;}
   if(b.dataset.allCap){state.capFilter=b.dataset.allCap;state.view='cha';state.type='';state.page=1;renderExplorer();$('.cha-row')?.focus({preventScroll:true});return;}
   if(b.dataset.type!==undefined){state.type=b.dataset.type;state.page=1;renderExplorer();$(`[data-type="${state.type}"]`).focus({preventScroll:true});return;}
   if(b.dataset.page){state.page=Number(b.dataset.page);renderExplorer();$('.cha-row')?.focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.cha){showDialog('cha',b.dataset.cha);return;}
   if(b.dataset.edge){const scroll=$('.edge-list').scrollTop;state.selectedEdge=b.dataset.edge;renderExplorer();$('.edge-list').scrollTop=scroll;$(`[data-edge="${state.selectedEdge}"]`).focus({preventScroll:true});return;}
-  if(b.dataset.task){state.task=b.dataset.task;state.view='cha';state.query='';state.type='';state.capFilter='';state.page=1;$('#framework-search').value='';$('#task-filter').value=state.task;if($('#detail-dialog').open)closeDialog();renderExplorer();($('.cha-row')||$('#framework-search')).focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
+  if(b.dataset.task){browseTask(b.dataset.task);return;}
   if(b.dataset.openCap){closeDialog();reset();state.selectedCap=b.dataset.openCap;state.view='competencies';renderExplorer();$('.competency-item.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.openEdge){closeDialog();reset();state.selectedEdge=b.dataset.openEdge;state.view='development';renderExplorer();$('.edge-button.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.chart){state.chart=b.dataset.chart;renderChart();return;}
   if(b.dataset.method!==undefined){state.method=Number(b.dataset.method);renderMethod();$(`[data-method="${state.method}"]`).focus({preventScroll:true});return;}
   if(b.dataset.sources){showDialog('sources',b.dataset.sources);return;}
-  if(b.dataset.action==='reset'){reset();return;}
+  if(b.dataset.action==='reset'){const fromResults=!!b.closest('#explorer-content');reset();if(fromResults)$('#framework-search').focus({preventScroll:true});return;}
   if(b.dataset.action==='clear-cap'){state.capFilter='';state.page=1;renderExplorer();($('.cha-row')||$('#framework-search')).focus({preventScroll:true});return;}
  });
- $('#framework-search').addEventListener('input',e=>{state.query=e.target.value;state.page=1;renderExplorer();});
+ $('#framework-search').addEventListener('input',e=>{state[state.view==='tasks'?'taskQuery':'query']=e.target.value;state.page=1;renderExplorer();});
  $('#task-filter').addEventListener('change',e=>{state.task=e.target.value;state.page=1;renderExplorer();});
  $('#close-dialog').addEventListener('click',closeDialog);
  $('#detail-dialog').addEventListener('cancel',()=>{state.dialog=null;});
@@ -186,4 +215,5 @@
  const navObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){$$('.main-nav a').forEach(a=>a.classList.toggle('current',a.hash==='#'+entry.target.id));}}),{rootMargin:'-15% 0px -65% 0px',threshold:0});
  $$('main>section[id]').forEach(el=>navObserver.observe(el));
  if(params.get('cha')&&chaById.has(params.get('cha')))showDialog('cha',params.get('cha'));
+ else if(params.get('task')&&taskById.has(params.get('task')))$('#framework').scrollIntoView({behavior:'instant'});
 })();

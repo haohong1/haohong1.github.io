@@ -9,6 +9,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <script src="content.js" defer></script>
+  <script src="task-content.js" defer></script>
   <script src="data.js" defer></script>
   <script src="app.js" defer></script>
 </head>
@@ -34,7 +35,7 @@
     <section id="concepts" class="section concepts-section">
       <div class="section-label"><span>01</span><span data-i18n="conceptLabel">LOS CONCEPTOS</span><span class="rule"></span></div>
       <div class="section-intro"><h2 data-i18n="conceptTitle">Volvamos a<br>la primera palabra.</h2><p data-i18n="conceptIntro">Antes de explorar lo digital, detengámonos en la literacidad: una manera de comprender y participar en prácticas que compartimos con otras personas.</p></div>
-      <div class="concept-tabs tabs" role="tablist" aria-label="Concepts"><button role="tab" id="concept-tab-0" aria-selected="true" data-concept="0" data-i18n="conceptTab0">La literacidad</button><button role="tab" id="concept-tab-1" aria-selected="false" data-concept="1" data-i18n="conceptTab1">Lo digital</button><button role="tab" id="concept-tab-2" aria-selected="false" data-concept="2" data-i18n="conceptTab2">Las capacidades</button></div>
+      <div class="concept-tabs tabs" role="tablist" aria-label="Concepts"><button role="tab" id="concept-tab-0" aria-selected="true" data-concept="0" data-i18n="conceptTab0">La literacidad</button><button role="tab" id="concept-tab-1" aria-selected="false" data-concept="1" data-i18n="conceptTab1">Lo digital</button><button role="tab" id="concept-tab-2" aria-selected="false" data-concept="2" data-i18n="conceptManifestation">Cómo se manifiesta</button><button role="tab" id="concept-tab-3" aria-selected="false" data-concept="3" data-i18n="conceptStructure">Cómo se estructura</button></div>
       <div class="concept-panel" role="tabpanel" aria-labelledby="concept-tab-0" id="concept-panel"></div>
       <button class="text-button source-trigger" data-sources="concepts"><span data-i18n="conceptSources">Las ideas detrás de esta explicación</span><span aria-hidden="true">↗</span></button>
     </section>
@@ -49,7 +50,7 @@
       <div class="section-intro"><h2 data-i18n="frameworkTitle">Un marco abierto<br>a la exploración.</h2><p data-i18n="frameworkIntro">Desde la traducción, con aportaciones de la enseñanza de lenguas. Explora las capacidades identificadas y las relaciones que tienen sentido en cada tarea.</p></div>
       <div class="framework-numbers"><div><strong>15</strong><span data-i18n="competencies">competencias</span></div><div><strong>535</strong><span data-i18n="integratedCHA">CHA integrados</span></div><div><strong>44</strong><span data-i18n="tasks">tareas</span></div><div><strong>31</strong><span data-i18n="developmentRelations">relaciones de desarrollo</span></div></div>
       <div class="explorer">
-        <div class="explorer-toolbar"><div class="framework-tabs tabs" role="tablist" aria-label="Framework views"><button role="tab" aria-selected="true" data-view="competencies" data-i18n="viewCompetencies">Competencias</button><button role="tab" aria-selected="false" data-view="cha" data-i18n="viewCHA">Explorar CHA</button><button role="tab" aria-selected="false" data-view="development" data-i18n="viewDevelopment">Relaciones de desarrollo</button></div><button class="text-button reset-button" data-action="reset" data-i18n="reset">Restablecer</button></div>
+        <div class="explorer-toolbar"><div class="framework-tabs tabs" role="tablist" aria-label="Framework views"><button role="tab" aria-selected="true" data-view="tasks" data-i18n="viewTasks">Directorio de tareas</button><button role="tab" aria-selected="false" data-view="competencies" data-i18n="viewCompetencies">Competencias</button><button role="tab" aria-selected="false" data-view="cha" data-i18n="viewCHA">Explorar CHA</button><button role="tab" aria-selected="false" data-view="development" data-i18n="viewDevelopment">Relaciones de desarrollo</button></div><button class="text-button reset-button" data-action="reset" data-i18n="reset">Restablecer</button></div>
         <div class="explorer-filters"><label class="search-control"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.5"></circle><path d="m16 16 5 5"></path></svg><input type="search" id="framework-search" autocomplete="off" data-placeholder="searchPlaceholder" aria-label="Search"></label><label class="task-control"><span data-i18n="filterTask">Tarea</span><select id="task-filter" aria-label="Task"></select></label></div>
         <div id="explorer-content" class="explorer-content"></div>
         <div class="explorer-bottom"><span id="result-count" role="status" aria-live="polite"></span><span data-i18n="dataDate">Datos de trabajo · octubre de 2026</span></div>
