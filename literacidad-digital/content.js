@@ -32,3 +32,19 @@ window.COPY = {
   publicationsLabel:'学术成果',publicationsTitle:'研究仍在继续。',publicationsText:'与本项目相关的学术成果将在这里更新。',footerDescription:'翻译视角下的数字素养<br>进行中的博士研究',references:'来源与参考文献',backTop:'返回开场 ↑',footerVersion:'供探索与讨论的第一版 · 2026',sourcesTitle:'这项探索的依据',sourcesIntro:'网站说明是面向公众阅读的概括。概念表述来自一项仍在进行中的博士研究。',sourceThesis:'Haohong Lai · 进行中的博士研究',sourceThesisText:'论文第二章，尤其是关于素养、能力和数字素养的讨论。四个维度及概念关系的解释属于本研究的理论建构。',sourceGilster:'关于数字信息的理解与判断。参见第 15 页。',sourceMartin:'数字素养的情境性及持续变化的特点。参见第 154—157 页。',sourceBelshaw:'关于素养、技能与能力之间的概念区别。',sourceWorkbook:'访谈分析 · 2026 年 10 月版本',sourceWorkbookText:'探索器数据来自任务、整合 CHA、发展关系及能力目录。网站展示分析形成的表述与关系，不包含受访者姓名或访谈转录文本。',sourceScope:'如何解读这些结果',sourceScopeText:'这些数量描述语料及分析结果，不衡量某项能力的重要程度，也不支持向总体进行统计推广。条目译文和框架的展示方式仍待进一步审阅。',readSource:'查看原始来源 ↗',stages:{'Servicios lingüísticos: preparación':'语言服务 · 准备阶段','Servicios lingüísticos: producción':'语言服务 · 生产阶段','Servicios lingüísticos: postproducción':'语言服务 · 后期阶段','Enseñanza de la traducción o de lenguas: diseño':'翻译或语言教学 · 设计阶段','Enseñanza de la traducción o de lenguas: docencia':'翻译或语言教学 · 教学阶段','Enseñanza de la traducción o de lenguas: evaluación':'翻译或语言教学 · 评价阶段','Manifestación transversal':'跨阶段表现'}
  }
 };
+
+// Current thesis identity, shared by the footer and document metadata.
+Object.entries({
+  "es": {
+    "thesisTitle": "Construcción de un marco de literacidad digital para la traducción y la enseñanza de lenguas: un estudio cualitativo basado en entrevistas a expertos",
+    "rightsNotice": "© 2026 Haohong Lai. Todos los derechos reservados sobre los textos originales y las representaciones originales de los modelos y marcos de este sitio. Al citar, indique el autor y la fuente. Los derechos sobre las obras de terceros pertenecen a sus respectivos titulares."
+  },
+  "en": {
+    "thesisTitle": "Towards a digital literacy framework for translation and language teaching: A qualitative study based on expert interviews",
+    "rightsNotice": "© 2026 Haohong Lai. All rights reserved in this site's original text and original representations of models and frameworks. Please credit the author and source when citing. Rights in third-party works remain with their respective rights holders."
+  },
+  "zh": {
+    "thesisTitle": "面向翻译与语言教学的数字素养框架构建：基于专家访谈的质性研究",
+    "rightsNotice": "© 2026 Haohong Lai。本网站原创文本及模型、框架的原创表达保留所有权利。引用请注明作者与出处；第三方文献的权利归原权利人所有。"
+  }
+}).forEach(([lang, identity]) => Object.assign(window.COPY[lang], identity));

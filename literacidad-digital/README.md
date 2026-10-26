@@ -50,6 +50,16 @@ This is a static HTML, CSS and JavaScript site with no build step, package insta
 python -m http.server 4173 --bind 127.0.0.1
 ```
 
-Then visit `http://127.0.0.1:4173/`. JavaScript enables the framework explorer and language switching. Newsreader is requested from Google Fonts; local serif fallbacks remain available when it cannot load. The font stack is shared across all languages: Latin characters and numbers retain Newsreader, while Chinese glyphs fall back to available Song-style system fonts.
+Then visit `http://127.0.0.1:4173/`. JavaScript enables the framework explorer and language switching. The font stack is shared across all languages: Latin characters and numbers use Times New Roman (with local serif fallbacks), while Chinese glyphs use available Song-style system fonts. No external webfont is loaded.
 
 Deploy this directory as `literacidad-digital/` within the `haohong1.github.io` GitHub Pages repository. All site asset paths are relative to that directory.
+
+## Thesis identity
+
+- **ES**: Construcción de un marco de literacidad digital para la traducción y la enseñanza de lenguas: un estudio cualitativo basado en entrevistas a expertos
+
+- **EN**: Towards a digital literacy framework for translation and language teaching: A qualitative study based on expert interviews
+
+- **ZH**: 面向翻译与语言教学的数字素养框架构建：基于专家访谈的质性研究
+
+Author ORCID: https://orcid.org/0009-0009-6157-6242

@@ -156,7 +156,8 @@
   if(!C[lang])return;
   const bookAnchor=$('.cb-paper'),bookRect=bookAnchor?.getBoundingClientRect();
   const y=window.scrollY,anchor=bookRect&&bookRect.top<=240&&bookRect.bottom>120?bookAnchor:$$('main>section').find(s=>s.getBoundingClientRect().top<=120&&s.getBoundingClientRect().bottom>120),anchorOffset=anchor?anchor.getBoundingClientRect().top:null;state.lang=lang;document.documentElement.lang=lang==='zh'?'zh':lang;
-  document.title=`${t('brand')} · Haohong Lai`;
+  document.title=`${t('thesisTitle')} · Haohong Lai`;
+  document.querySelector('meta[name="description"]').setAttribute('content',`${t('thesisTitle')} · Haohong Lai`);
   $$('[data-i18n]').forEach(el=>{const value=t(el.dataset.i18n);if(typeof value==='string')el.innerHTML=value;});
   $$('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));
   $$('[data-lang]').forEach(el=>el.setAttribute('aria-pressed',el.dataset.lang===lang));
