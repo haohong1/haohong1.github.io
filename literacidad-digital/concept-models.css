@@ -54,3 +54,18 @@ html[lang=zh] .cm .cm-weave-origin h4{font-size:31px;letter-spacing:0;line-heigh
  .cm .cm-selected-domain{padding:20px}.cm .cm-selected-domain h4{font-size:25px}html[lang=zh] .cm .cm-weave-origin h4{font-size:29px}html[lang=zh] .cm .cm-field-node{font-size:16px}
 }
 @media(prefers-reduced-motion:reduce){.cm .cm-flow-stroke{animation:none!important;opacity:0!important}.cm .cm-wire,.cm .cm-field-node,.cm .cm-flow-key{transition:none!important}}
+
+/* Citations attached to the specific literacy concepts. */
+
+.cm .cm-field-entry{background:var(--cm-white);border:1px solid transparent;border-bottom-color:var(--cm-line);border-radius:3px;transition:background .3s,border-color .3s}
+.cm .cm-field-entry:has(.cm-field-node[aria-pressed=true]){background:#e8eee1;border-color:#afc0a5}
+.cm .cm-field-entry .cm-field-node{background:transparent;border-color:transparent;min-height:56px;padding-bottom:8px}
+.cm .cm-field-entry .cm-field-node[aria-pressed=true]{box-shadow:inset 2px 0 var(--cm-ink)}
+.cm .cm-field-references{padding:0 13px 12px 48px;font-size:12px;line-height:1.65;color:var(--cm-accent);overflow-wrap:anywhere}
+#concept-story .cm .cm-field-references .cb-citation{font-size:inherit;line-height:inherit}
+.cm .cm-field-references:empty{display:none}
+
+@container(max-width:620px){
+
+ .cm .cm-field-references{font-size:12px;padding-left:38px;padding-right:10px}.cm .cm-field-entry .cm-field-node{min-height:59px}
+}

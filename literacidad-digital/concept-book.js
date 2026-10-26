@@ -25,12 +25,12 @@
   const seen=new Set();
   return refs.filter(ref=>ref&&ref.id&&!seen.has(ref.id)&&seen.add(ref.id));
  }
- function inline(value,key){
+ function inline(value,key,scope=''){
   const source=String(value??''),pattern=/\[\[([^|\]]+)\|([^\]]+)\]\]/g;
   let html='',offset=0,match,index=0;
   while((match=pattern.exec(source))){
    html+=esc(source.slice(offset,match.index));
-   const id=match[1].trim(),rawLabel=match[2].trim(),label=/^[（(].*[）)]$/.test(rawLabel)?rawLabel:`(${rawLabel})`,citeId=`book-cite-${identifier(key)}-${index++}`;
+   const id=match[1].trim(),rawLabel=match[2].trim(),label=/^[（(].*[）)]$/.test(rawLabel)?rawLabel:`(${rawLabel})`,citeId=`book-cite-${identifier(key)}${scope?`-${identifier(scope)}`:''}-${index++}`;
    html+=state.refMap.has(id)?`<a class="cb-citation" id="${citeId}" href="#book-reference-${identifier(id)}" data-cb-reference="${esc(id)}" data-cb-unit="${esc(key)}" aria-label="${esc(label)} · ${esc(text('citationDescription'))}">${esc(label)}</a>`:`<span class="cb-citation-text">${esc(label)}</span>`;
    offset=match.index+match[0].length;
   }
@@ -86,7 +86,7 @@
   if(page.type==='references'){
    content=`<div class="cb-reading-body"><header class="cb-page-heading"><span class="cb-page-kicker">${esc(text('references'))}</span><h3 id="book-page-title" tabindex="-1">${esc(text('referenceTitle'))}${page.chapterPage?` <small>${esc(text('continued'))}</small>`:''}</h3>${page.chapterPage===0?`<p class="cb-lead">${esc(text('referenceIntro'))}</p>`:''}</header><ol class="cb-reference-list" start="${page.chapterPage*5+1}">${page.refs.length?page.refs.map(referenceMarkup).join(''):`<li>${esc(text('referenceEmpty'))}</li>`}</ol></div>`;
   }else if(page.type==='model'){
-   content=`<h3 class="cb-visually-hidden" id="book-page-title" tabindex="-1">${esc(page.section.title)} · ${esc(text('model'))}</h3><div class="cb-model-page" data-cb-unit-key="${esc(page.units[0].key)}">${window.ConceptModels?.render(page.model,state.lang)||''}</div>`;
+   content=`<h3 class="cb-visually-hidden" id="book-page-title" tabindex="-1">${esc(page.section.title)} · ${esc(text('model'))}</h3><div class="cb-model-page" data-cb-unit-key="${esc(page.units[0].key)}">${window.ConceptModels?.render(page.model,state.lang,{citation:(value,scope)=>inline(value,page.units[0].key,scope)})||''}</div>`;
   }else{
    const heading=page.first?`<header class="cb-page-heading"><span class="cb-page-kicker">${chapterNumber} · ${esc(page.section.shortTitle)}</span><h3 id="book-page-title" tabindex="-1">${inline(page.section.title,`${page.chapterId}-title`)}</h3>${page.section.lead?`<p class="cb-lead">${inline(page.section.lead,`${page.chapterId}-lead`)}</p>`:''}</header>`:`<header class="cb-continuation"><span class="cb-page-kicker">${chapterNumber} · ${esc(page.section.shortTitle)}</span><h3 id="book-page-title" tabindex="-1">${esc(page.section.title)} <small>${esc(text('continued'))}</small></h3></header>`;
    content=`<div class="cb-reading-body">${heading}<div class="cb-prose">${page.units.map(unitMarkup).join('')}</div></div>`;
