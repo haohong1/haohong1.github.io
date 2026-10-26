@@ -36,7 +36,7 @@
   if(!tasks.length){$('#explorer-content').innerHTML=`<div class="empty-state"><p>${esc(t('taskNoResults'))}</p><button class="text-button" data-action="reset">${esc(t('taskClearSearch'))}</button></div>`;return;}
   if(!tasks.some(x=>x.id===state.selectedTask))state.selectedTask=tasks[0].id;
   const task=taskById.get(state.selectedTask),caps=taskCaps(task.id),items=taskCHA(task.id),stages=unique(D.contexts.filter(x=>x.task===task.id).map(x=>x.stage));
-  $('#explorer-content').innerHTML=`<div class="task-directory-intro"><span class="detail-kicker">${esc(t('taskDirectory'))}</span><h3>${esc(t('taskDirectoryHint'))}</h3><p>${esc(t('taskDirectoryText'))}</p></div><div class="task-directory-layout"><div class="task-directory-list" role="group" aria-label="${esc(t('viewTasks'))}">${tasks.map(x=>`<button class="directory-task ${x.id===task.id?'active':''}" data-directory-task="${esc(x.id)}" aria-pressed="${x.id===task.id}"><span class="task-code">${esc(x.id)}</span><span>${esc(label(x))}</span><span class="directory-arrow" aria-hidden="true">↗</span></button>`).join('')}</div><div class="task-detail fade-in"><p class="detail-kicker">${esc(t('taskLabel'))} <span>${esc(task.id)}</span></p><h3>${esc(label(task))}</h3><div class="task-summary"><span><strong>${caps.length}</strong> ${esc(t(caps.length===1?'taskCompetencyOne':'taskCompetencies'))}</span><span><strong>${items.length}</strong> ${esc(t('taskCHA'))}</span></div><p class="detail-subtitle">${esc(t('taskStages'))}</p><div class="task-stage-list">${stages.map(s=>`<span>${esc(stageLabel(s))}</span>`).join('')}</div><div class="task-combination-heading"><h4>${esc(t('taskCombination'))}</h4><p>${esc(t('taskCombinationText'))}</p></div><div class="task-combination">${caps.map(c=>`<button class="task-cap-card" data-task-cap="${esc(c.id)}" data-context-task="${esc(task.id)}"><span class="task-cap-heading"><span class="item-index">${String(c.number).padStart(2,'0')}</span><span>${esc(label(c))}</span><span aria-hidden="true">↗</span></span><span class="task-cap-bottom"><span class="type-counts">${countsMarkup(taskCapCHA(task.id,c.id))}</span><span class="task-cap-link">${esc(t('taskCapButton'))}</span></span></button>`).join('')||`<p>${esc(t('taskNoMapping'))}</p>`}</div><button class="text-button task-all-cha" data-task-cha="${esc(task.id)}">${esc(t('taskCHAButton'))}<span aria-hidden="true">↗</span></button><p class="task-scope-note">${esc(t('taskScopeNote'))}</p></div></div>`;
+  $('#explorer-content').innerHTML=`<div class="task-directory-intro"><span class="detail-kicker">${esc(t('taskDirectory'))}</span><h3>${esc(t('taskDirectoryHint'))}</h3><p>${esc(t('taskDirectoryText'))}</p></div><div class="task-directory-layout"><div class="task-directory-list" role="group" aria-label="${esc(t('viewTasks'))}">${tasks.map(x=>`<button class="directory-task ${x.id===task.id?'active':''}" data-directory-task="${esc(x.id)}" aria-pressed="${x.id===task.id}"><span class="task-code">${esc(x.id)}</span><span>${esc(label(x))}</span><span class="directory-arrow" aria-hidden="true">↗</span></button>`).join('')}</div><div class="task-detail fade-in"><p class="detail-kicker">${esc(t('taskLabel'))} <span>${esc(task.id)}</span></p><h3>${esc(label(task))}</h3><div class="task-summary"><span><strong>${caps.length}</strong> ${esc(t(caps.length===1?'taskCompetencyOne':'taskCompetencies'))}</span><span><strong>${items.length}</strong> ${esc(t('taskCHA'))}</span></div><p class="detail-subtitle">${esc(t('taskStages'))}</p><div class="task-stage-list">${stages.map(s=>`<span>${esc(stageLabel(s))}</span>`).join('')}</div><div class="task-combination-heading"><h4>${esc(t('taskCombination'))}</h4><p>${esc(t('taskCombinationText'))}</p></div><div class="task-combination-map"><div class="task-map-hub"><span>${esc(t("taskLabel"))}</span><strong>${esc(task.id)}</strong><span aria-hidden="true">↗</span></div><div class="task-combination">${caps.map(c=>`<button class="task-cap-card" data-task-cap="${esc(c.id)}" data-context-task="${esc(task.id)}"><span class="task-cap-heading"><span class="item-index">${String(c.number).padStart(2,'0')}</span><span>${esc(label(c))}</span><span aria-hidden="true">↗</span></span><span class="task-cap-bottom"><span class="type-counts">${countsMarkup(taskCapCHA(task.id,c.id))}</span><span class="task-cap-link">${esc(t('taskCapButton'))}</span></span></button>`).join('')||`<p>${esc(t('taskNoMapping'))}</p>`}</div></div><button class="text-button task-all-cha" data-task-cha="${esc(task.id)}">${esc(t('taskCHAButton'))}<span aria-hidden="true">↗</span></button><p class="task-scope-note">${esc(t('taskScopeNote'))}</p></div></div>`;
   const active=$('.directory-task.active'),list=$('.task-directory-list');
   if(active)list.scrollTop=Math.max(0,active.offsetTop-list.offsetTop-list.clientHeight/3);
  }
@@ -47,13 +47,7 @@
   renderExplorer();$('.directory-task.active')?.focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});
  }
 
- function renderConcept(){
-  const c=t('concepts')[state.concept];
-  $$('.concept-tabs button').forEach(b=>{const on=Number(b.dataset.concept)===state.concept;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;});
-  $('#concept-panel').setAttribute('aria-labelledby',`concept-tab-${state.concept}`);
-  const visual=state.concept===0?`<div class="lens-buttons">${t('lenses').map((x,i)=>`<button data-lens="${i}" aria-pressed="${i===state.lens}" class="${i===state.lens?'active':''}">${esc(x.name)}</button>`).join('')}</div><p class="lens-description" aria-live="polite">${esc(t('lenses')[state.lens].text)}</p>`:`<p class="visual-word">${esc(c.word)}</p>${c.rows.map((x,i)=>`<div class="visual-row"><span>0${i+1}</span><span>${esc(x)}</span></div>`).join('')}`;
-  $('#concept-panel').innerHTML=`<div class="concept-copy fade-in"><h3>${esc(c.title)}</h3>${c.paragraphs.map(p=>`<p>${esc(p)}</p>`).join('')}</div><div class="concept-visual"><p class="lens-label">${esc(c.visual)}</p>${visual}</div>`;
- }
+ function renderConcept(){ window.ConceptStory?.render(state.lang); }
  function renderPrimer(){
   $$('.primer-row').forEach(b=>{const on=b.dataset.primer===state.primer;b.classList.toggle('active',on);b.setAttribute('aria-expanded',on);$('.primer-plus',b).textContent=on?'−':'+';});
   const p=$('#primer-explanation'); p.textContent=t('primer')[state.primer];
@@ -160,7 +154,8 @@
  function closeDialog(){ $('#detail-dialog').close();state.dialog=null; }
  function setLanguage(lang){
   if(!C[lang])return;
-  const y=window.scrollY,anchor=$$('main>section').find(s=>s.getBoundingClientRect().top<=120&&s.getBoundingClientRect().bottom>120),anchorOffset=anchor?anchor.getBoundingClientRect().top:null;state.lang=lang;document.documentElement.lang=lang==='zh'?'zh':lang;
+  const bookAnchor=$('.cb-paper'),bookRect=bookAnchor?.getBoundingClientRect();
+  const y=window.scrollY,anchor=bookRect&&bookRect.top<=240&&bookRect.bottom>120?bookAnchor:$$('main>section').find(s=>s.getBoundingClientRect().top<=120&&s.getBoundingClientRect().bottom>120),anchorOffset=anchor?anchor.getBoundingClientRect().top:null;state.lang=lang;document.documentElement.lang=lang==='zh'?'zh':lang;
   document.title=`${t('brand')} · Haohong Lai`;
   $$('[data-i18n]').forEach(el=>{const value=t(el.dataset.i18n);if(typeof value==='string')el.innerHTML=value;});
   $$('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));
@@ -169,14 +164,13 @@
   renderConcept();renderPrimer();renderTasks();renderExplorer();renderChart();renderMethod();
   if(state.dialog)showDialog(state.dialog.kind,state.dialog.id);
   try{const url=new URL(location.href);url.searchParams.set('lang',lang);history.replaceState(null,'',url);}catch{}
-  window.scrollTo({top:anchor?window.scrollY+anchor.getBoundingClientRect().top-anchorOffset:y,behavior:'instant'});
+  const restoredAnchor=anchor?.classList.contains('cb-paper')?$('.cb-paper'):anchor;
+  window.scrollTo({top:restoredAnchor?window.scrollY+restoredAnchor.getBoundingClientRect().top-anchorOffset:y,behavior:'instant'});
  }
  function reset(){state.query='';state.taskQuery='';state.task='';state.type='';state.capFilter='';state.page=1;$('#framework-search').value='';$('#task-filter').value='';renderExplorer();}
  document.addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
   if(b.dataset.lang){setLanguage(b.dataset.lang);return;}
-  if(b.dataset.concept!==undefined){state.concept=Number(b.dataset.concept);renderConcept();return;}
-  if(b.dataset.lens!==undefined){state.lens=Number(b.dataset.lens);renderConcept();$(`[data-lens="${state.lens}"]`).focus({preventScroll:true});return;}
   if(b.dataset.primer){state.primer=b.dataset.primer;renderPrimer();return;}
   if(b.dataset.view){state.view=b.dataset.view;if(state.view==='tasks'){if(state.task)state.selectedTask=state.task;state.task='';state.query='';state.taskQuery='';}state.page=1;state.type='';state.capFilter='';renderExplorer();return;}
   if(b.dataset.directoryTask){const list=$('.task-directory-list'),scroll=list.scrollTop;state.selectedTask=b.dataset.directoryTask;renderExplorer();$('.task-directory-list').scrollTop=scroll;$('.directory-task.active').focus({preventScroll:true});return;}
@@ -194,7 +188,7 @@
   if(b.dataset.openEdge){closeDialog();reset();state.selectedEdge=b.dataset.openEdge;state.view='development';renderExplorer();$('.edge-button.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.chart){state.chart=b.dataset.chart;renderChart();return;}
   if(b.dataset.method!==undefined){state.method=Number(b.dataset.method);renderMethod();$(`[data-method="${state.method}"]`).focus({preventScroll:true});return;}
-  if(b.dataset.sources){showDialog('sources',b.dataset.sources);return;}
+  if(b.dataset.sources){if(b.dataset.sources!=='research'&&window.ConceptStory?.openReferences){window.ConceptStory.openReferences();}else showDialog('sources',b.dataset.sources);return;}
   if(b.dataset.action==='reset'){const fromResults=!!b.closest('#explorer-content');reset();if(fromResults)$('#framework-search').focus({preventScroll:true});return;}
   if(b.dataset.action==='clear-cap'){state.capFilter='';state.page=1;renderExplorer();($('.cha-row')||$('#framework-search')).focus({preventScroll:true});return;}
  });
@@ -215,5 +209,6 @@
  const navObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){$$('.main-nav a').forEach(a=>a.classList.toggle('current',a.hash==='#'+entry.target.id));}}),{rootMargin:'-15% 0px -65% 0px',threshold:0});
  $$('main>section[id]').forEach(el=>navObserver.observe(el));
  if(params.get('cha')&&chaById.has(params.get('cha')))showDialog('cha',params.get('cha'));
+ else if(location.hash&&location.hash!=='#framework'){const id=decodeURIComponent(location.hash.slice(1));const target=document.getElementById(id);if(target)target.scrollIntoView({behavior:'instant'});else window.ConceptStory?.openChapter(id);}
  else if(params.get('task')&&taskById.has(params.get('task')))$('#framework').scrollIntoView({behavior:'instant'});
 })();

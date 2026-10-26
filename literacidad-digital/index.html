@@ -8,9 +8,15 @@
   <title>Literacidad digital · Haohong Lai</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="concept-book.css">
+  <link rel="stylesheet" href="concept-models.css">
+  <link rel="stylesheet" href="research-interaction.css">
   <script src="content.js" defer></script>
   <script src="task-content.js" defer></script>
   <script src="data.js" defer></script>
+  <script src="concept-story.js" defer></script>
+  <script src="concept-models.js" defer></script>
+  <script src="concept-book.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -34,10 +40,7 @@
 
     <section id="concepts" class="section concepts-section">
       <div class="section-label"><span>01</span><span data-i18n="conceptLabel">LOS CONCEPTOS</span><span class="rule"></span></div>
-      <div class="section-intro"><h2 data-i18n="conceptTitle">Volvamos a<br>la primera palabra.</h2><p data-i18n="conceptIntro">Antes de explorar lo digital, detengámonos en la literacidad: una manera de comprender y participar en prácticas que compartimos con otras personas.</p></div>
-      <div class="concept-tabs tabs" role="tablist" aria-label="Concepts"><button role="tab" id="concept-tab-0" aria-selected="true" data-concept="0" data-i18n="conceptTab0">La literacidad</button><button role="tab" id="concept-tab-1" aria-selected="false" data-concept="1" data-i18n="conceptTab1">Lo digital</button><button role="tab" id="concept-tab-2" aria-selected="false" data-concept="2" data-i18n="conceptManifestation">Cómo se manifiesta</button><button role="tab" id="concept-tab-3" aria-selected="false" data-concept="3" data-i18n="conceptStructure">Cómo se estructura</button></div>
-      <div class="concept-panel" role="tabpanel" aria-labelledby="concept-tab-0" id="concept-panel"></div>
-      <button class="text-button source-trigger" data-sources="concepts"><span data-i18n="conceptSources">Las ideas detrás de esta explicación</span><span aria-hidden="true">↗</span></button>
+      <div id="concept-story"></div>
     </section>
 
     <section class="bridge-section" aria-labelledby="bridge-title">
