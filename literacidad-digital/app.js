@@ -123,10 +123,13 @@
  }
  function renderChart(){
   $$('.sample-tabs button').forEach(b=>{const on=b.dataset.chart===state.chart;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;});
+  const target=$('#sample-chart-content');
   const numbers={origin:[22,12],profiles:[11,8,16,8],languages:[22,8,4]}[state.chart];
   const keys={origin:['originLabels','originNote'],profiles:['profileLabels','profileNote'],languages:['languageLabels','languageNote']}[state.chart];
-  $('#sample-chart-content').innerHTML=numbers.map((n,i)=>`<div class="bar-row"><div class="bar-label"><span>${esc(t(keys[0])[i])}</span><span>${n}</span></div><div class="bar-track" aria-hidden="true"><div class="bar-fill" style="--bar:${n/34*100}%"></div></div></div>`).join('')+`<p class="chart-note">${esc(t(keys[1]))}</p>`;
+  const projectURL=state.lang==='es'?'https://lt-lider.eu/es/home-espanol/':'https://lt-lider.eu/';
+  target.innerHTML=numbers.map((n,i)=>`<div class="bar-row"><div class="bar-label"><span>${state.chart==='origin'&&i===0?`<a class="project-source-link" href="${projectURL}" target="_blank" rel="noopener noreferrer">${esc(t(keys[0])[i])}<span aria-hidden="true"> ↗</span></a>`:esc(t(keys[0])[i])}</span><span>${n}</span></div><div class="bar-track" aria-hidden="true"><div class="bar-fill" style="--bar:${n/34*100}%"></div></div></div>`).join('')+`<p class="chart-note">${esc(t(keys[1]))}</p>`;
  }
+
  function renderMethod(){
   $('#method-steps').innerHTML=t('methodSteps').map((x,i)=>`<button class="method-step" role="tab" aria-selected="${i===state.method}" tabindex="${i===state.method?0:-1}" id="method-tab-${i}" data-method="${i}"><span>0${i+1}</span><span>${esc(x.title)}</span><span aria-hidden="true">↗</span></button>`).join('');
   const m=t('methodSteps')[state.method];$('#method-panel').setAttribute('aria-labelledby',`method-tab-${state.method}`);
@@ -156,8 +159,8 @@
   if(!C[lang])return;
   const bookAnchor=$('.cb-paper'),bookRect=bookAnchor?.getBoundingClientRect();
   const y=window.scrollY,anchor=bookRect&&bookRect.top<=240&&bookRect.bottom>120?bookAnchor:$$('main>section').find(s=>s.getBoundingClientRect().top<=120&&s.getBoundingClientRect().bottom>120),anchorOffset=anchor?anchor.getBoundingClientRect().top:null;state.lang=lang;document.documentElement.lang=lang==='zh'?'zh':lang;
-  document.title=`${t('thesisTitle')} · Haohong Lai`;
-  document.querySelector('meta[name="description"]').setAttribute('content',`${t('thesisTitle')} · Haohong Lai`);
+  document.title=`${t('thesisTitle')} · ${t('authorName')}`;
+  document.querySelector('meta[name="description"]').setAttribute('content',`${t('thesisTitle')} · ${t('authorName')}`);
   $$('[data-i18n]').forEach(el=>{const value=t(el.dataset.i18n);if(typeof value==='string')el.innerHTML=value;});
   $$('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));
   $$('[data-lang]').forEach(el=>el.setAttribute('aria-pressed',el.dataset.lang===lang));

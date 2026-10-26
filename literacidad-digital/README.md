@@ -24,7 +24,7 @@ Language links use `?lang=es`, `?lang=en` or `?lang=zh`. A CHA record can be ope
 - **15 competencies and 615 nonexclusive memberships**. A CHA can contribute to several competencies, and a task can call upon only some of a competency’s members.
 - The methods section distinguishes **809 unique source CHA** from **843 source/ task/ context records**. Counts describe the corpus and analysis; they do not measure importance or support statistical generalization.
 
-Country distribution is deferred until the relevant information and geographical counting rule are confirmed.
+The country view is withheld: four participants could not be reliably assigned to a work or institution country at the time of interview. The roster audit confirms 34 interview texts and 35 participants, including one two-person interview. The public site does not publish participant identities or an incomplete country distribution.
 
 The public data contain research labels, identifiers, task and stage mappings, competency memberships, development relations and aggregate sample information. They do not include participant names, interview transcripts, raw quotations, the original workbook or the thesis manuscript.
 
@@ -63,3 +63,5 @@ Deploy this directory as `literacidad-digital/` within the `haohong1.github.io` 
 - **ZH**: 面向翻译与语言教学的数字素养框架构建：基于专家访谈的质性研究
 
 Author ORCID: https://orcid.org/0009-0009-6157-6242
+
+The Chinese interface identifies the author as 赖豪鸿; English and Spanish use Haohong Lai. The LT-LiDER source label links to the Spanish project homepage in Spanish, and to the English homepage in English or Chinese.
