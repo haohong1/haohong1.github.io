@@ -9,7 +9,15 @@
  const unique = arr => [...new Set(arr)];
  const chaById = new Map(D.cha.map(x=>[x.id,x])), capById = new Map(D.competencies.map(x=>[x.id,x])), taskById = new Map(D.tasks.map(x=>[x.id,x]));
  const params = new URLSearchParams(location.search);
- const state = {lang:['es','en','zh'].includes(params.get('lang'))?params.get('lang'):'es', concept:0,lens:0,primer:'C',view:'tasks',query:'',taskQuery:'',selectedTask:taskById.has(params.get('task'))?params.get('task'):'T25',task:'',type:'',capFilter:'',selectedCap:D.competencies.find(x=>x.number===9).id,selectedEdge:'C-R010',page:1,chart:['origin','profiles','languages','volume'].includes(params.get('sample'))?params.get('sample'):'origin',method:0,dialog:null};
+ const taskIdVersion=D.taskIdVersion;
+ const requestedTask=params.get('task'),requestedVersion=params.get('taskv');
+ const resolvedTask=requestedVersion===taskIdVersion?requestedTask:!requestedVersion?D.legacyTaskIds?.[requestedTask]:null;
+ const linkedTask=taskById.has(resolvedTask)?resolvedTask:'';
+ if(linkedTask){
+  params.set('task',linkedTask);params.set('taskv',taskIdVersion);
+  try{const url=new URL(location.href);url.search=params.toString();history.replaceState(null,'',url);}catch{}
+ }
+ const state = {lang:['es','en','zh'].includes(params.get('lang'))?params.get('lang'):'es', concept:0,lens:0,primer:'C',view:'tasks',query:'',taskQuery:'',selectedTask:linkedTask||(taskById.has(D.defaultTask)?D.defaultTask:D.tasks[0].id),task:'',type:'',capFilter:'',selectedCap:D.competencies.find(x=>x.number===9).id,selectedEdge:'C-R010',page:1,chart:['origin','profiles','languages','volume'].includes(params.get('sample'))?params.get('sample'):'origin',method:0,dialog:null};
  const t = key => C[state.lang][key];
  const label = x => x?.[state.lang] || x?.es || '';
  const marker = type => `<i class="type-marker ${esc(type)}" aria-label="${esc(t({C:'knowledge',H:'skills',A:'attitudes'}[type]))}">${esc(type)}</i>`;
@@ -20,7 +28,11 @@
   const key=Object.keys(t('stages')).find(k=>norm(k)===norm(value));
   return key?t('stages')[key]:value;
  };
- const taskChips = ids => unique(ids).filter(id=>taskById.has(id)).map(id=>`<button class="task-chip" data-task="${esc(id)}">${esc(label(taskById.get(id)))}</button>`).join('');
+ const taskURL=id=>{
+  const url=new URL(location.href);url.search='';url.searchParams.set('lang',state.lang);url.searchParams.set('task',id);url.searchParams.set('taskv',taskIdVersion);url.hash='framework';return url.href;
+ };
+ const updateTaskURL=id=>{try{history.replaceState(null,'',taskURL(id));}catch{}};
+ const taskChips = ids => unique(ids).filter(id=>taskById.has(id)).map(id=>`<a class="task-chip" href="${esc(taskURL(id))}" data-task="${esc(id)}">${esc(label(taskById.get(id)))}</a>`).join('');
  const definition = task => task?.definition?.[state.lang] || task?.definition?.es || '';
  const quoteValues = indices => unique(indices.map(i=>D.quotes?.[i]).filter(q=>typeof q==='string'&&q.length));
  function quotePanel(indices){
@@ -61,6 +73,7 @@
 
  function browseTask(id){
   state.selectedTask=id;state.taskQuery='';state.view='tasks';state.task='';state.query='';state.capFilter='';state.type='';state.page=1;
+  updateTaskURL(id);
   if($('#detail-dialog').open)closeDialog();
   renderExplorer();$('.directory-task.active')?.focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});
  }
@@ -207,11 +220,12 @@
  }
  function reset(){state.query='';state.taskQuery='';state.task='';state.type='';state.capFilter='';state.page=1;$('#framework-search').value='';$('#task-filter').value='';renderExplorer();}
  document.addEventListener('click',e=>{
-  const b=e.target.closest('button');if(!b)return;
+  const b=e.target.closest('button,a[data-task]');if(!b)return;
+  if(b.matches('a')&&(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey))return;
   if(b.dataset.lang){setLanguage(b.dataset.lang);return;}
   if(b.dataset.primer){state.primer=b.dataset.primer;renderPrimer();return;}
   if(b.dataset.view){state.view=b.dataset.view;if(state.view==='tasks'){if(state.task)state.selectedTask=state.task;state.task='';state.query='';state.taskQuery='';}state.page=1;state.type='';state.capFilter='';renderExplorer();return;}
-  if(b.dataset.directoryTask){const list=$('.task-directory-list'),scroll=list.scrollTop;state.selectedTask=b.dataset.directoryTask;renderExplorer();$('.task-directory-list').scrollTop=scroll;$('.directory-task.active').focus({preventScroll:true});return;}
+  if(b.dataset.directoryTask){const list=$('.task-directory-list'),scroll=list.scrollTop;state.selectedTask=b.dataset.directoryTask;updateTaskURL(state.selectedTask);renderExplorer();$('.task-directory-list').scrollTop=scroll;$('.directory-task.active').focus({preventScroll:true});return;}
   if(b.dataset.browseTask){browseTask(b.dataset.browseTask);return;}
   if(b.dataset.taskCap){state.task=b.dataset.contextTask;state.selectedCap=b.dataset.taskCap;state.query='';state.type='';state.capFilter='';state.view='competencies';renderExplorer();$('.competency-item.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.taskCha){state.task=b.dataset.taskCha;state.query='';state.type='';state.capFilter='';state.page=1;state.view='cha';renderExplorer();$('.cha-row')?.focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
@@ -221,7 +235,7 @@
   if(b.dataset.page){state.page=Number(b.dataset.page);renderExplorer();$('.cha-row')?.focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.cha){showDialog('cha',b.dataset.cha,scopeForTrigger(b));return;}
   if(b.dataset.edge){const scroll=$('.edge-list').scrollTop;state.selectedEdge=b.dataset.edge;renderExplorer();$('.edge-list').scrollTop=scroll;$(`[data-edge="${state.selectedEdge}"]`).focus({preventScroll:true});return;}
-  if(b.dataset.task){showDialog('task',b.dataset.task);return;}
+  if(b.dataset.task){e.preventDefault();showDialog('task',b.dataset.task);return;}
   if(b.dataset.openCap){closeDialog();reset();state.selectedCap=b.dataset.openCap;state.view='competencies';renderExplorer();$('.competency-item.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.openEdge){closeDialog();reset();state.selectedEdge=b.dataset.openEdge;state.view='development';renderExplorer();$('.edge-button.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.chart){state.chart=b.dataset.chart;renderChart();try{const url=new URL(location.href);if(state.chart==='origin')url.searchParams.delete('sample');else url.searchParams.set('sample',state.chart);history.replaceState(null,'',url);}catch{}$('.sample-tabs button[aria-selected="true"]')?.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});return;}
@@ -246,7 +260,7 @@
  $$('.section-intro,.bridge-copy,.research-data,.publication-empty').forEach(el=>{el.classList.add('reveal');observer.observe(el);});
  const navObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){$$('.main-nav a').forEach(a=>a.classList.toggle('current',a.hash==='#'+entry.target.id));}}),{rootMargin:'-15% 0px -65% 0px',threshold:0});
  $$('main>section[id]').forEach(el=>navObserver.observe(el));
- if(params.get('cha')&&chaById.has(params.get('cha')))showDialog('cha',params.get('cha'),{task:taskById.has(params.get('task'))?params.get('task'):''});
+ if(params.get('cha')&&chaById.has(params.get('cha')))showDialog('cha',params.get('cha'),{task:linkedTask});
  else if(location.hash&&location.hash!=='#framework'){const id=decodeURIComponent(location.hash.slice(1));const target=document.getElementById(id);if(target)target.scrollIntoView({behavior:'instant'});else window.ConceptStory?.openChapter(id);}
- else if(params.get('task')&&taskById.has(params.get('task')))$('#framework').scrollIntoView({behavior:'instant'});
+ else if(linkedTask)$('#framework').scrollIntoView({behavior:'instant'});
 })();

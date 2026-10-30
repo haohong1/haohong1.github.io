@@ -12,7 +12,7 @@ Task labels throughout the explorer open a definition and interview excerpts. CH
 
 Research identifiers remain in the data and direct links. The visible task and CHA views use names, definitions and interview wording. Development views show the connected CHA within their task and stage.
 
-Language links use `?lang=es`, `?lang=en` or `?lang=zh`. A CHA can be opened with `?lang=en&cha=CI0149`; a task with `?lang=zh&task=T25#framework`. Combining the two parameters opens the CHA with its task-specific evidence.
+Language links use `?lang=es`, `?lang=en` or `?lang=zh`. A CHA can be opened with `?lang=en&cha=CI0149`; a task with `?lang=zh&task=T18&taskv=20261030#framework`. Combining CHA and task parameters, including `taskv`, opens the CHA with its task-specific evidence.
 
 ## Research data
 
@@ -30,6 +30,9 @@ The analysis organises tasks by purpose. It distinguishes the generation and com
 - `competencyEvidence` adds the competency context to those links.
 - `contexts`, `competencyContexts` and `edgeContexts` organise the corresponding views.
 - `edges` contains the identifiers of each relationship and its two CHA endpoints.
+- Active tasks use consecutive identifiers `T01`–`T33`. `taskIdVersion` identifies this scheme, `legacyTaskIds` preserves the fixed earlier-to-current mapping, and `defaultTask` selects the initial directory task.
+
+New task links include `taskv=20261030`. Earlier links without `taskv` resolve through `legacyTaskIds` and are normalised to the current URL. For example, the earlier `?task=T29` opens translation generation at `?task=T22&taskv=20261030`; `?task=T29&taskv=20261030` opens teaching-material creation. The same resolution applies to links containing both `cha` and `task`. Generated task links carry the version marker so copied links preserve their meaning.
 
 The interface escapes excerpts as text and preserves their complete wording. Equal excerpt strings are displayed once within a view. A context-specific view uses the source links for that context.
 
@@ -59,7 +62,7 @@ The corpus-size panel reports 134,863 non-Han word/number tokens and 50,905 Han 
 ## Updating the site
 
 1. Revise and validate the local analysis workbook, including its source, task, integration and competency links.
-2. Generate `data.js` from that validated snapshot and supply all three task names and definitions.
+2. Generate `data.js` from that validated snapshot and supply all three task names and definitions. Preserve `taskIdVersion`, `legacyTaskIds` and `defaultTask` when regenerating the data.
 3. Check that every excerpt index resolves and each scoped evidence link matches its task, stage and competency. Review changes to task definitions and CHA wording in all three languages.
 4. Preview the task directory, task-to-competency path, CHA list and development graph. Expand their excerpts, check the exact original wording, and test language switching, keyboard use and a narrow screen.
 5. Update the asset version references and publish the verified directory.
