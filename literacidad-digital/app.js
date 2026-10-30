@@ -20,7 +20,25 @@
   const key=Object.keys(t('stages')).find(k=>norm(k)===norm(value));
   return key?t('stages')[key]:value;
  };
- const taskChips = ids => ids.map(id=>`<button class="task-chip" data-task="${esc(id)}">${esc(id)} · ${esc(label(taskById.get(id)))}</button>`).join('');
+ const taskChips = ids => unique(ids).filter(id=>taskById.has(id)).map(id=>`<button class="task-chip" data-task="${esc(id)}">${esc(label(taskById.get(id)))}</button>`).join('');
+ const definition = task => task?.definition?.[state.lang] || task?.definition?.es || '';
+ const quoteValues = indices => unique(indices.map(i=>D.quotes?.[i]).filter(q=>typeof q==='string'&&q.length));
+ function quotePanel(indices){
+  const quotes=quoteValues(indices);
+  if(!quotes.length)return '';
+  const block=q=>`<blockquote class="interview-quote">"${esc(q)}"</blockquote>`;
+  return `<details class="interview-evidence"><summary>${esc(t('evidenceRead'))}</summary><div class="interview-excerpts">${quotes.slice(0,2).map(block).join('')}${quotes.length>2?`<details class="interview-more"><summary>${esc(t('evidenceAll'))}</summary>${quotes.slice(2).map(block).join('')}</details>`:''}</div></details>`;
+ }
+ function evidenceForCHA(id,scope={}){
+  let rows=(scope.competency?D.competencyEvidence:D.evidenceContexts)||[];
+  rows=rows.filter(r=>r.cha===id&&(!scope.competency||r.competency===scope.competency)&&(!scope.task||r.task===scope.task)&&(!scope.stage||r.stage===scope.stage));
+  if(scope.edge){const contexts=D.edgeContexts.filter(c=>c.edge===scope.edge&&(!scope.task||c.task===scope.task));rows=rows.filter(r=>contexts.some(c=>c.task===r.task&&c.stage===r.stage));}
+  return unique(rows.flatMap(r=>r.quotes||[]));
+ }
+ function scopeForTrigger(button){
+  return {task:button.dataset.contextTask||state.task||'',competency:button.dataset.contextCompetency||(state.view==='cha'?state.capFilter:'')||'',edge:button.dataset.contextEdge||''};
+ }
+ const evidenceScope = scope => `${scope.competency?`<p class="evidence-scope">${esc(label(capById.get(scope.competency)))}</p>`:''}${scope.task?`<div class="task-chips evidence-scope">${taskChips([scope.task])}</div>`:''}`;
  const allText = x => [x.id,x.es,x.en,x.zh].join(' ');
  const searchableCHA = x => norm([allText(x),...taskIdsForCha(x.id).map(id=>allText(taskById.get(id)))].join(' '));
  const chaSearch = new Map(D.cha.map(x=>[x.id,searchableCHA(x)]));
@@ -36,9 +54,9 @@
   if(!tasks.length){$('#explorer-content').innerHTML=`<div class="empty-state"><p>${esc(t('taskNoResults'))}</p><button class="text-button" data-action="reset">${esc(t('taskClearSearch'))}</button></div>`;return;}
   if(!tasks.some(x=>x.id===state.selectedTask))state.selectedTask=tasks[0].id;
   const task=taskById.get(state.selectedTask),caps=taskCaps(task.id),items=taskCHA(task.id),stages=unique(D.contexts.filter(x=>x.task===task.id).map(x=>x.stage));
-  $('#explorer-content').innerHTML=`<div class="task-directory-intro"><span class="detail-kicker">${esc(t('taskDirectory'))}</span><h3>${esc(t('taskDirectoryHint'))}</h3><p>${esc(t('taskDirectoryText'))}</p></div><div class="task-directory-layout"><div class="task-directory-list" role="group" aria-label="${esc(t('viewTasks'))}">${tasks.map(x=>`<button class="directory-task ${x.id===task.id?'active':''}" data-directory-task="${esc(x.id)}" aria-pressed="${x.id===task.id}"><span class="task-code">${esc(x.id)}</span><span>${esc(label(x))}</span><span class="directory-arrow" aria-hidden="true">↗</span></button>`).join('')}</div><div class="task-detail fade-in"><p class="detail-kicker">${esc(t('taskLabel'))} <span>${esc(task.id)}</span></p><h3>${esc(label(task))}</h3><div class="task-summary"><span><strong>${caps.length}</strong> ${esc(t(caps.length===1?'taskCompetencyOne':'taskCompetencies'))}</span><span><strong>${items.length}</strong> ${esc(t('taskCHA'))}</span></div><p class="detail-subtitle">${esc(t('taskStages'))}</p><div class="task-stage-list">${stages.map(s=>`<span>${esc(stageLabel(s))}</span>`).join('')}</div><div class="task-combination-heading"><h4>${esc(t('taskCombination'))}</h4><p>${esc(t('taskCombinationText'))}</p></div><div class="task-combination-map"><div class="task-map-hub"><span>${esc(t("taskLabel"))}</span><strong>${esc(task.id)}</strong><span aria-hidden="true">↗</span></div><div class="task-combination">${caps.map(c=>`<button class="task-cap-card" data-task-cap="${esc(c.id)}" data-context-task="${esc(task.id)}"><span class="task-cap-heading"><span class="item-index">${String(c.number).padStart(2,'0')}</span><span>${esc(label(c))}</span><span aria-hidden="true">↗</span></span><span class="task-cap-bottom"><span class="type-counts">${countsMarkup(taskCapCHA(task.id,c.id))}</span><span class="task-cap-link">${esc(t('taskCapButton'))}</span></span></button>`).join('')||`<p>${esc(t('taskNoMapping'))}</p>`}</div></div><button class="text-button task-all-cha" data-task-cha="${esc(task.id)}">${esc(t('taskCHAButton'))}<span aria-hidden="true">↗</span></button><p class="task-scope-note">${esc(t('taskScopeNote'))}</p></div></div>`;
+  $('#explorer-content').innerHTML=`<div class="task-directory-intro"><span class="detail-kicker">${esc(t('taskDirectory'))}</span><h3>${esc(t('taskDirectoryHint'))}</h3><p>${esc(t('taskDirectoryText'))}</p></div><div class="task-directory-layout"><div class="task-directory-list" role="group" aria-label="${esc(t('viewTasks'))}">${tasks.map(x=>`<button class="directory-task ${x.id===task.id?'active':''}" data-directory-task="${esc(x.id)}" aria-pressed="${x.id===task.id}"><span>${esc(label(x))}</span><span class="directory-arrow" aria-hidden="true">↗</span></button>`).join('')}</div><div class="task-detail fade-in"><p class="detail-kicker">${esc(t('taskLabel'))}</p><h3>${esc(label(task))}</h3><p class="task-definition">${esc(definition(task))}</p>${quotePanel(task.evidence||[])}<div class="task-summary"><span><strong>${caps.length}</strong> ${esc(t(caps.length===1?'taskCompetencyOne':'taskCompetencies'))}</span><span><strong>${items.length}</strong> ${esc(t('taskCHA'))}</span></div><p class="detail-subtitle">${esc(t('taskStages'))}</p><div class="task-stage-list">${stages.map(s=>`<span>${esc(stageLabel(s))}</span>`).join('')}</div><div class="task-combination-heading"><h4>${esc(t('taskCombination'))}</h4><p>${esc(t('taskCombinationText'))}</p></div><div class="task-combination-map"><div class="task-map-hub"><span>${esc(t('taskLabel'))}</span><span aria-hidden="true">↗</span></div><div class="task-combination">${caps.map(c=>`<button class="task-cap-card" data-task-cap="${esc(c.id)}" data-context-task="${esc(task.id)}"><span class="task-cap-heading"><span>${esc(label(c))}</span><span aria-hidden="true">↗</span></span><span class="task-cap-bottom"><span class="type-counts">${countsMarkup(taskCapCHA(task.id,c.id))}</span><span class="task-cap-link">${esc(t('taskCapButton'))}</span></span></button>`).join('')||`<p>${esc(t('taskNoMapping'))}</p>`}</div></div><button class="text-button task-all-cha" data-task-cha="${esc(task.id)}">${esc(t('taskCHAButton'))}<span aria-hidden="true">↗</span></button></div></div>`;
   const active=$('.directory-task.active'),list=$('.task-directory-list');
-  if(active)list.scrollTop=Math.max(0,active.offsetTop-list.offsetTop-list.clientHeight/3);
+  if(active)list.scrollTop=Math.max(0,list.scrollTop+active.getBoundingClientRect().top-list.getBoundingClientRect().top-list.clientHeight/3);
  }
 
  function browseTask(id){
@@ -54,7 +72,7 @@
   $(`[data-primer="${state.primer}"]`).after(p);
  }
  function renderTasks(){
-  $('#task-filter').innerHTML=`<option value="">${esc(t('allTasks'))}</option>`+D.tasks.map(x=>`<option value="${esc(x.id)}">${esc(x.id)} · ${esc(label(x))}</option>`).join('');
+  $('#task-filter').innerHTML=`<option value="">${esc(t('allTasks'))}</option>`+D.tasks.map(x=>`<option value="${esc(x.id)}">${esc(label(x))}</option>`).join('');
   $('#task-filter').value=state.task;
  }
  function filteredCHA(){
@@ -76,7 +94,7 @@
    return norm(allText(x)).includes(q)||D.cha.some(c=>ids.has(c.id)&&matchesCHA(c,q));
   });
  }
- function miniCHA(x){return `<button class="mini-cha" data-cha="${esc(x.id)}">${marker(x.type)}<span>${esc(label(x))}</span></button>`;}
+ function miniCHA(x,competency=''){return `<button class="mini-cha" data-cha="${esc(x.id)}" data-context-competency="${esc(competency)}">${marker(x.type)}<span>${esc(label(x))}</span></button>`;}
  function renderCompetencies(){
   const caps=filteredCaps();
   if(!caps.length){$('#explorer-content').innerHTML=`<p class="empty-state">${esc(t('noResults'))}</p>`;$('#result-count').textContent=`0 ${t('competencies')}`;return;}
@@ -86,7 +104,7 @@
   if(state.task){const scope=new Set(D.competencyContexts.filter(x=>x.competency===selected.id&&x.task===state.task).map(x=>x.cha));items=items.filter(x=>scope.has(x.id));}
   const sample=['C','H','A'].flatMap(type=>items.filter(x=>x.type===type).slice(0,1));
   const description=state.lang==='es'?selected.description:selected[state.lang==='en'?'descriptionEn':'descriptionZh'];
-  $('#explorer-content').innerHTML=`<div class="competency-layout"><div class="competency-list" role="group" aria-label="${esc(t('viewCompetencies'))}">${caps.map(x=>`<button class="competency-item ${x.id===selected.id?'active':''}" data-cap="${esc(x.id)}" aria-pressed="${x.id===selected.id}"><span class="item-index">${String(x.number).padStart(2,'0')}</span><span class="item-title">${esc(label(x))}</span></button>`).join('')}</div><div class="competency-detail"><p class="detail-kicker">${esc(t('competencyLabel'))} ${String(selected.number).padStart(2,'0')}</p><h3>${esc(label(selected))}</h3><p class="competency-description">${esc(description)}</p><div class="type-counts">${['C','H','A'].map(type=>`<span>${marker(type)} ${items.filter(x=>x.type===type).length}</span>`).join('')}</div><p class="detail-subtitle">${esc(t(state.task?'taskScopedCHA':'includedCHA'))}</p>${sample.map(miniCHA).join('')}<button class="text-button view-all" data-all-cap="${esc(selected.id)}">${esc(t(state.task?'taskScopedAll':'viewAllCHA'))}<span aria-hidden="true">↗</span></button><p class="detail-subtitle">${esc(t('relatedTasks'))}</p><div class="task-chips">${taskChips(taskIdsForCap(selected.id))}</div></div></div>`;
+  $('#explorer-content').innerHTML=`<div class="competency-layout"><div class="competency-list" role="group" aria-label="${esc(t('viewCompetencies'))}">${caps.map(x=>`<button class="competency-item ${x.id===selected.id?'active':''}" data-cap="${esc(x.id)}" aria-pressed="${x.id===selected.id}"><span class="item-title">${esc(label(x))}</span></button>`).join('')}</div><div class="competency-detail"><p class="detail-kicker">${esc(t('competencyLabel'))}</p><h3>${esc(label(selected))}</h3><p class="competency-description">${esc(description)}</p><div class="type-counts">${['C','H','A'].map(type=>`<span>${marker(type)} ${items.filter(x=>x.type===type).length}</span>`).join('')}</div><p class="detail-subtitle">${esc(t(state.task?'taskScopedCHA':'includedCHA'))}</p>${sample.map(x=>miniCHA(x,selected.id)).join('')}<button class="text-button view-all" data-all-cap="${esc(selected.id)}">${esc(t(state.task?'taskScopedAll':'viewAllCHA'))}<span aria-hidden="true">↗</span></button><p class="detail-subtitle">${esc(t('relatedTasks'))}</p><div class="task-chips">${taskChips(taskIdsForCap(selected.id))}</div></div></div>`;
   const selectedItem=$('.competency-item.active'),capList=$('.competency-list');capList.scrollTop=Math.max(0,selectedItem.offsetTop-capList.offsetTop-capList.clientHeight/3);
   $('#result-count').textContent=`${caps.length} ${t('competencies')}`;
  }
@@ -95,7 +113,7 @@
   const all=filteredCHA(),pages=Math.max(1,Math.ceil(all.length/20));state.page=Math.min(state.page,pages);
   const items=all.slice((state.page-1)*20,state.page*20);
   $('#explorer-content').innerHTML=(state.capFilter?`<div class="active-cap-filter"><span>${esc(label(capById.get(state.capFilter)))}</span><button data-action="clear-cap" aria-label="${esc(t('clearFilter'))}">×</button></div>`:'')+typeControls()+
-   (items.length?`<div class="cha-list">${items.map(x=>`<button class="cha-row" data-cha="${esc(x.id)}">${marker(x.type)}<span class="cha-id">${esc(x.id)}</span><span class="cha-row-title">${esc(label(x))}</span><span class="row-arrow" aria-hidden="true">↗</span></button>`).join('')}</div><div class="pagination"><button data-page="${state.page-1}" ${state.page===1?'disabled':''}>← ${esc(t('previous'))}</button><span>${state.page} ${esc(t('of'))} ${pages}</span><button data-page="${state.page+1}" ${state.page===pages?'disabled':''}>${esc(t('next'))} →</button></div>`:`<p class="empty-state">${esc(t('noResults'))}</p>`);
+   (items.length?`<div class="cha-list">${items.map(x=>`<button class="cha-row" data-cha="${esc(x.id)}">${marker(x.type)}<span class="cha-row-title">${esc(label(x))}</span><span class="row-arrow" aria-hidden="true">↗</span></button>`).join('')}</div><div class="pagination"><button data-page="${state.page-1}" ${state.page===1?'disabled':''}>← ${esc(t('previous'))}</button><span>${state.page} ${esc(t('of'))} ${pages}</span><button data-page="${state.page+1}" ${state.page===pages?'disabled':''}>${esc(t('next'))} →</button></div>`:`<p class="empty-state">${esc(t('noResults'))}</p>`);
   $('#result-count').textContent=`${all.length} ${t('integratedCHA')}`;
  }
  function filteredEdges(){
@@ -109,17 +127,19 @@
   const edges=filteredEdges();
   if(!edges.length){$('#explorer-content').innerHTML=typeControls()+`<p class="empty-state">${esc(t('noRelations'))}</p>`;$('#result-count').textContent=`0 ${t('developmentRelations')}`;return;}
   if(!edges.some(e=>e.id===state.selectedEdge))state.selectedEdge=edges[0].id;
-  const edge=edges.find(e=>e.id===state.selectedEdge),from=chaById.get(edge.from),to=chaById.get(edge.to),contexts=D.edgeContexts.filter(x=>x.edge===edge.id);
-  $('#explorer-content').innerHTML=typeControls()+`<div class="development-layout"><div class="edge-list">${edges.map(e=>`<button class="edge-button ${e.id===edge.id?'active':''}" data-edge="${esc(e.id)}" aria-pressed="${e.id===edge.id}"><small>${esc(e.id)}</small>${esc(label(e))}</button>`).join('')}</div><div class="edge-detail"><p class="detail-kicker">${esc(t('edgeScope'))}</p><div class="edge-context">${contexts.map(c=>`<span>${esc(c.task)} · ${esc(label(taskById.get(c.task)))}</span><span>${esc(stageLabel(c.stage))}</span>`).join('')}</div><div class="edge-graph"><button class="edge-node" data-cha="${esc(from.id)}">${marker(from.type)}<small>${esc(from.id)}</small>${esc(label(from))}</button><span class="edge-arrow" aria-label="${esc(state.lang==='zh'?'发展方向':state.lang==='en'?'Development direction':'Dirección del desarrollo')}">→</span><button class="edge-node" data-cha="${esc(to.id)}">${marker(to.type)}<small>${esc(to.id)}</small>${esc(label(to))}</button></div><p class="detail-kicker">${esc(t('edgeMeaning'))}</p><p class="edge-dimension">${esc(label(edge))}</p><p class="edge-note">${esc(t('edgeNotice'))}</p></div></div>`;
+  const edge=edges.find(e=>e.id===state.selectedEdge),from=chaById.get(edge.from),to=chaById.get(edge.to),contexts=D.edgeContexts.filter(x=>x.edge===edge.id&&(!state.task||x.task===state.task));
+  const edgePreview=e=>`<span class="edge-preview">${esc(label(chaById.get(e.from)))}</span><span class="edge-preview-arrow" aria-hidden="true">↓</span><span class="edge-preview">${esc(label(chaById.get(e.to)))}</span>`;
+  $('#explorer-content').innerHTML=typeControls()+`<div class="development-layout"><div class="edge-list">${edges.map(e=>`<button class="edge-button ${e.id===edge.id?'active':''}" data-edge="${esc(e.id)}" aria-pressed="${e.id===edge.id}">${edgePreview(e)}</button>`).join('')}</div><div class="edge-detail"><p class="detail-kicker">${esc(t('edgeScope'))}</p><div class="edge-context">${contexts.map(c=>`<div class="edge-context-pair">${taskChips([c.task])}<span>${esc(stageLabel(c.stage))}</span></div>`).join('')}</div><div class="edge-graph"><button class="edge-node" data-cha="${esc(from.id)}" data-context-edge="${esc(edge.id)}">${marker(from.type)}<span class="edge-node-title">${esc(label(from))}</span></button><span class="edge-arrow" aria-label="${esc(t('developmentDirection'))}">→</span><button class="edge-node" data-cha="${esc(to.id)}" data-context-edge="${esc(edge.id)}">${marker(to.type)}<span class="edge-node-title">${esc(label(to))}</span></button></div></div></div>`;
   $('#result-count').textContent=`${edges.length} ${t('developmentRelations')}`;
  }
+
  function renderExplorer(){
   $$('.framework-tabs button').forEach(b=>{const on=b.dataset.view===state.view;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;});
   const directory=state.view==='tasks',search=$('#framework-search');
   search.value=directory?state.taskQuery:state.query;search.placeholder=t(directory?'taskSearch':'searchPlaceholder');search.setAttribute('aria-label',search.placeholder);
   $('.task-control').hidden=directory;$('#task-filter').value=state.task;
   ({tasks:renderTaskDirectory,competencies:renderCompetencies,cha:renderCHA,development:renderDevelopment})[state.view]();
-  if(!directory&&state.task)$('#explorer-content').insertAdjacentHTML('afterbegin',`<div class="task-context-banner"><span>${esc(state.task)} · ${esc(label(taskById.get(state.task)))}</span><button class="text-button" data-browse-task="${esc(state.task)}">← ${esc(t('taskBack'))}</button></div>`);
+  if(!directory&&state.task)$('#explorer-content').insertAdjacentHTML('afterbegin',`<div class="task-context-banner">${taskChips([state.task])}<button class="text-button" data-browse-task="${esc(state.task)}">← ${esc(t('taskBack'))}</button></div>`);
  }
  function renderChart(){
   $$('.sample-tabs button').forEach(b=>{const on=b.dataset.chart===state.chart;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;});
@@ -136,16 +156,24 @@
  function renderMethod(){
   $('#method-steps').innerHTML=t('methodSteps').map((x,i)=>`<button class="method-step" role="tab" aria-selected="${i===state.method}" tabindex="${i===state.method?0:-1}" id="method-tab-${i}" data-method="${i}"><span>0${i+1}</span><span>${esc(x.title)}</span><span aria-hidden="true">↗</span></button>`).join('');
   const m=t('methodSteps')[state.method];$('#method-panel').setAttribute('aria-labelledby',`method-tab-${state.method}`);
-  $('#method-panel').innerHTML=`<div class="fade-in"><span class="method-number">0${state.method+1}</span><h4>${esc(m.title)}</h4><p>${esc(m.text)}</p><div class="method-fact">${esc(m.fact)}</div></div>`;
+  const counts=['C','H','A'].map(type=>D.cha.filter(x=>x.type===type).length);
+  const facts=t('methodFacts'),values={tasks:D.tasks.length,cha:D.cha.length,knowledge:counts[0],skills:counts[1],attitudes:counts[2],edges:D.edges.length,competencies:D.competencies.length,members:D.members.length,quotes:D.quotes?.length||0,sourceCHA:D.stats?.sourceCHA||0,sourceRelations:D.stats?.sourceRelations||0};
+  const fact=(facts?.[state.method]||m.fact||'').replace(/\{(\w+)\}/g,(_,key)=>values[key]??'');
+  $('#method-panel').innerHTML=`<div class="fade-in"><span class="method-number">0${state.method+1}</span><h4>${esc(m.title)}</h4><p>${esc(m.text)}</p>${fact?`<div class="method-fact">${esc(fact)}</div>`:''}</div>`;
  }
- function showDialog(kind,id){
-  state.dialog={kind,id};
+ function showDialog(kind,id,scope={}){
+  if((kind==='cha'&&!chaById.has(id))||(kind==='task'&&!taskById.has(id)))return;
+  state.dialog={kind,id,scope};
   if(kind==='cha'){
-   const x=chaById.get(id);if(!x)return;
-   $('#dialog-eyebrow').textContent=`${t('recordLabel')} · ${id}`;
+   const x=chaById.get(id);
+   $('#dialog-eyebrow').textContent=t('recordLabel');
    const caps=unique(D.members.filter(m=>m.cha===id).map(m=>m.competency)).map(c=>capById.get(c));
-   const edges=D.edges.filter(e=>e.from===id||e.to===id);
-   $('#dialog-body').innerHTML=`<h3>${esc(label(x))}</h3><p>${marker(x.type)} ${esc(t({C:'knowledge',H:'skills',A:'attitudes'}[x.type]))}</p>${state.lang!=='es'?`<details><summary>${esc(t('originalWording'))}</summary><p lang="es">${esc(x.es)}</p></details>`:''}<p class="detail-subtitle">${esc(t('relatedTasks'))}</p><div class="task-chips">${taskChips(taskIdsForCha(id))}</div><p class="detail-subtitle">${esc(t('associatedCompetencies'))}</p>${caps.map(c=>`<button class="mini-cha" data-open-cap="${esc(c.id)}"><span class="item-index">${String(c.number).padStart(2,'0')}</span><span>${esc(label(c))} ↗</span></button>`).join('')}${edges.length?`<p class="detail-subtitle">${esc(t('relatedDevelopment'))}</p>${edges.map(e=>`<button class="mini-cha" data-open-edge="${esc(e.id)}">${esc(e.from)} → ${esc(e.to)}<br>${esc(label(e))}</button>`).join('')}`:''}<p class="section-footnote" style="margin-top:25px">${esc(t('detailOrigin'))}</p>`;
+   const edges=D.edges.filter(e=>(e.from===id||e.to===id)&&(!scope.task||D.edgeContexts.some(c=>c.edge===e.id&&c.task===scope.task)));
+   $('#dialog-body').innerHTML=`<h3>${esc(label(x))}</h3><p>${marker(x.type)} ${esc(t({C:'knowledge',H:'skills',A:'attitudes'}[x.type]))}</p>${evidenceScope(scope)}${quotePanel(evidenceForCHA(id,scope))}${state.lang!=='es'?`<details class="original-wording"><summary>${esc(t('originalWording'))}</summary><p lang="es">${esc(x.es)}</p></details>`:''}<p class="detail-subtitle">${esc(t('relatedTasks'))}</p><div class="task-chips">${taskChips(taskIdsForCha(id))}</div><p class="detail-subtitle">${esc(t('associatedCompetencies'))}</p>${caps.map(c=>`<button class="mini-cha" data-open-cap="${esc(c.id)}"><span>${esc(label(c))} ↗</span></button>`).join('')}${edges.length?`<p class="detail-subtitle">${esc(t('relatedDevelopment'))}</p>${edges.map(e=>`<button class="mini-cha development-link" data-open-edge="${esc(e.id)}"><span>${esc(label(chaById.get(e.from)))}</span><span aria-hidden="true">→</span><span>${esc(label(chaById.get(e.to)))}</span></button>`).join('')}`:''}`;
+  }else if(kind==='task'){
+   const task=taskById.get(id);
+   $('#dialog-eyebrow').textContent=t('taskLabel');
+   $('#dialog-body').innerHTML=`<h3>${esc(label(task))}</h3><p class="task-definition">${esc(definition(task))}</p>${quotePanel(task.evidence||[])}<button class="text-button task-dialog-browse" data-browse-task="${esc(id)}">${esc(t('taskExplore'))}<span aria-hidden="true">↗</span></button>`;
   }else{
    $('#dialog-eyebrow').textContent=t('references');
    const entry=(title,text,url)=>`<div class="source-entry"><h4>${esc(title)}</h4><p>${esc(text)}</p>${url?`<a href="${url}" target="_blank" rel="noopener">${esc(t('readSource'))}</a>`:''}</div>`;
@@ -157,6 +185,7 @@
   $('#close-dialog').setAttribute('aria-label',t('close'));
   const d=$('#detail-dialog');if(!d.open)d.showModal();d.scrollTop=0;
  }
+
  function closeDialog(){ $('#detail-dialog').close();state.dialog=null; }
  function setLanguage(lang){
   if(!C[lang])return;
@@ -167,9 +196,11 @@
   $$('[data-i18n]').forEach(el=>{const value=t(el.dataset.i18n);if(typeof value==='string')el.innerHTML=value;});
   $$('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));
   $$('[data-lang]').forEach(el=>el.setAttribute('aria-pressed',el.dataset.lang===lang));
+  const totals={competencies:D.competencies.length,integratedCHA:D.cha.length,tasks:D.tasks.length,developmentRelations:D.edges.length};
+  $$('.framework-numbers [data-i18n]').forEach(el=>{if(totals[el.dataset.i18n]!==undefined)el.previousElementSibling.textContent=totals[el.dataset.i18n];});
   $('#framework-search').setAttribute('aria-label',t('searchPlaceholder'));$('#task-filter').setAttribute('aria-label',t('filterTask'));
   renderConcept();renderPrimer();renderTasks();renderExplorer();renderChart();renderMethod();
-  if(state.dialog)showDialog(state.dialog.kind,state.dialog.id);
+  if(state.dialog)showDialog(state.dialog.kind,state.dialog.id,state.dialog.scope);
   try{const url=new URL(location.href);url.searchParams.set('lang',lang);history.replaceState(null,'',url);}catch{}
   const restoredAnchor=anchor?.classList.contains('cb-paper')?$('.cb-paper'):anchor;
   window.scrollTo({top:restoredAnchor?window.scrollY+restoredAnchor.getBoundingClientRect().top-anchorOffset:y,behavior:'instant'});
@@ -188,9 +219,9 @@
   if(b.dataset.allCap){state.capFilter=b.dataset.allCap;state.view='cha';state.type='';state.page=1;renderExplorer();$('.cha-row')?.focus({preventScroll:true});return;}
   if(b.dataset.type!==undefined){state.type=b.dataset.type;state.page=1;renderExplorer();$(`[data-type="${state.type}"]`).focus({preventScroll:true});return;}
   if(b.dataset.page){state.page=Number(b.dataset.page);renderExplorer();$('.cha-row')?.focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
-  if(b.dataset.cha){showDialog('cha',b.dataset.cha);return;}
+  if(b.dataset.cha){showDialog('cha',b.dataset.cha,scopeForTrigger(b));return;}
   if(b.dataset.edge){const scroll=$('.edge-list').scrollTop;state.selectedEdge=b.dataset.edge;renderExplorer();$('.edge-list').scrollTop=scroll;$(`[data-edge="${state.selectedEdge}"]`).focus({preventScroll:true});return;}
-  if(b.dataset.task){browseTask(b.dataset.task);return;}
+  if(b.dataset.task){showDialog('task',b.dataset.task);return;}
   if(b.dataset.openCap){closeDialog();reset();state.selectedCap=b.dataset.openCap;state.view='competencies';renderExplorer();$('.competency-item.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.openEdge){closeDialog();reset();state.selectedEdge=b.dataset.openEdge;state.view='development';renderExplorer();$('.edge-button.active').focus({preventScroll:true});$('.explorer').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(b.dataset.chart){state.chart=b.dataset.chart;renderChart();try{const url=new URL(location.href);if(state.chart==='origin')url.searchParams.delete('sample');else url.searchParams.set('sample',state.chart);history.replaceState(null,'',url);}catch{}$('.sample-tabs button[aria-selected="true"]')?.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});return;}
@@ -215,7 +246,7 @@
  $$('.section-intro,.bridge-copy,.research-data,.publication-empty').forEach(el=>{el.classList.add('reveal');observer.observe(el);});
  const navObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){$$('.main-nav a').forEach(a=>a.classList.toggle('current',a.hash==='#'+entry.target.id));}}),{rootMargin:'-15% 0px -65% 0px',threshold:0});
  $$('main>section[id]').forEach(el=>navObserver.observe(el));
- if(params.get('cha')&&chaById.has(params.get('cha')))showDialog('cha',params.get('cha'));
+ if(params.get('cha')&&chaById.has(params.get('cha')))showDialog('cha',params.get('cha'),{task:taskById.has(params.get('task'))?params.get('task'):''});
  else if(location.hash&&location.hash!=='#framework'){const id=decodeURIComponent(location.hash.slice(1));const target=document.getElementById(id);if(target)target.scrollIntoView({behavior:'instant'});else window.ConceptStory?.openChapter(id);}
  else if(params.get('task')&&taskById.has(params.get('task')))$('#framework').scrollIntoView({behavior:'instant'});
 })();
