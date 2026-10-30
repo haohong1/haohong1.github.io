@@ -8,7 +8,7 @@ Website: https://haohong1.github.io/literacidad-digital/
 
 Spanish, English and Chinese use the same research records. The site opens the framework through a task directory. Selecting a task shows its definition, the interview excerpts that support it, its contexts and its competency combination. Opening a competency from that task shows the CHA associated with that particular combination.
 
-Task labels throughout the explorer open a definition and interview excerpts. CHA cards, lists and development-graph nodes open a shared detail view. When a CHA is opened within a task, competency or development context, its excerpts come from that context. The global CHA view brings together all its linked excerpts. Readers can expand the interview section and then open all remaining excerpts. Each excerpt retains the original wording and appears in double quotes, followed by its interview code and turno.
+Task labels throughout the explorer open a definition and interview excerpts. CHA cards, lists and development-graph nodes open a shared detail view. When a CHA is opened within a task, competency or development context, its excerpts come from that context. The global CHA view brings together all its linked excerpts. Readers can expand the interview section and then open all remaining excerpts. Each excerpt retains the original wording and uses curved double quotation marks, followed by its interview code and turno.
 
 Research identifiers remain in the data and direct links. The visible task and CHA views use names, definitions and interview wording with its interview code and turno. Development views show the connected CHA within their task and stage.
 

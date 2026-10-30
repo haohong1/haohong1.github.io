@@ -47,7 +47,7 @@
  function quotePanel(indices){
   const quotes=quoteEntries(indices);
   if(!quotes.length)return '';
-  const block=q=>`<figure class="interview-excerpt"><blockquote class="interview-quote">"${esc(q.text)}"</blockquote><figcaption class="interview-source">${[...q.sources.values()].map(s=>`<span class="interview-source-entry">${esc(s.expert)} · turno ${esc(s.turn)}</span>`).join('')}</figcaption></figure>`;
+  const block=q=>`<figure class="interview-excerpt"><blockquote class="interview-quote">“${esc(q.text.replace(/"([^"]*)"/g,'“$1”'))}”</blockquote><figcaption class="interview-source">${[...q.sources.values()].map(s=>`<span class="interview-source-entry">${esc(s.expert)} · turno ${esc(s.turn)}</span>`).join('')}</figcaption></figure>`;
   return `<details class="interview-evidence"><summary>${esc(t('evidenceRead'))}</summary><div class="interview-excerpts">${quotes.slice(0,2).map(block).join('')}${quotes.length>2?`<details class="interview-more"><summary>${esc(t('evidenceAll'))}</summary>${quotes.slice(2).map(block).join('')}</details>`:''}</div></details>`;
  }
  function evidenceForCHA(id,scope={}){
