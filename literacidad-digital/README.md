@@ -8,9 +8,9 @@ Website: https://haohong1.github.io/literacidad-digital/
 
 Spanish, English and Chinese use the same research records. The site opens the framework through a task directory. Selecting a task shows its definition, the interview excerpts that support it, its contexts and its competency combination. Opening a competency from that task shows the CHA associated with that particular combination.
 
-Task labels throughout the explorer open a definition and interview excerpts. CHA cards, lists and development-graph nodes open a shared detail view. When a CHA is opened within a task, competency or development context, its excerpts come from that context. The global CHA view brings together all its linked excerpts. Readers can expand the interview section and then open all remaining excerpts. Each excerpt retains the original wording and appears in double quotes.
+Task labels throughout the explorer open a definition and interview excerpts. CHA cards, lists and development-graph nodes open a shared detail view. When a CHA is opened within a task, competency or development context, its excerpts come from that context. The global CHA view brings together all its linked excerpts. Readers can expand the interview section and then open all remaining excerpts. Each excerpt retains the original wording and appears in double quotes, followed by its interview code and turno.
 
-Research identifiers remain in the data and direct links. The visible task and CHA views use names, definitions and interview wording. Development views show the connected CHA within their task and stage.
+Research identifiers remain in the data and direct links. The visible task and CHA views use names, definitions and interview wording with its interview code and turno. Development views show the connected CHA within their task and stage.
 
 Language links use `?lang=es`, `?lang=en` or `?lang=zh`. A CHA can be opened with `?lang=en&cha=CI0149`; a task with `?lang=zh&task=T18&taskv=20261030#framework`. Combining CHA and task parameters, including `taskv`, opens the CHA with its task-specific evidence.
 
@@ -26,6 +26,7 @@ The analysis organises tasks by purpose. It distinguishes the generation and com
 
 - `tasks` contains multilingual names, a multilingual `definition` and `evidence` indices.
 - `quotes` contains the original excerpt strings.
+- `quoteSources` uses the same indices as `quotes`; each entry lists the interview code and turno of every source occurrence.
 - `evidenceContexts` links each CHA, task and stage to excerpt indices.
 - `competencyEvidence` adds the competency context to those links.
 - `contexts`, `competencyContexts` and `edgeContexts` organise the corresponding views.
@@ -34,7 +35,7 @@ The analysis organises tasks by purpose. It distinguishes the generation and com
 
 New task links include `taskv=20261030`. Earlier links without `taskv` resolve through `legacyTaskIds` and are normalised to the current URL. For example, the earlier `?task=T29` opens translation generation at `?task=T22&taskv=20261030`; `?task=T29&taskv=20261030` opens teaching-material creation. The same resolution applies to links containing both `cha` and `task`. Generated task links carry the version marker so copied links preserve their meaning.
 
-The interface escapes excerpts as text and preserves their complete wording. Equal excerpt strings are displayed once within a view. A context-specific view uses the source links for that context.
+The interface escapes excerpts as text and preserves their complete wording. Equal excerpt strings are displayed once within a view, with their source occurrences listed beneath them. A context-specific view uses the source links for that context.
 
 ## Concept book and corpus view
 
@@ -62,8 +63,8 @@ The corpus-size panel reports 134,863 non-Han word/number tokens and 50,905 Han 
 ## Updating the site
 
 1. Revise and validate the local analysis workbook, including its source, task, integration and competency links.
-2. Generate `data.js` from that validated snapshot and supply all three task names and definitions. Preserve `taskIdVersion`, `legacyTaskIds` and `defaultTask` when regenerating the data.
-3. Check that every excerpt index resolves and each scoped evidence link matches its task, stage and competency. Review changes to task definitions and CHA wording in all three languages.
+2. Generate `data.js` from that validated snapshot and supply all three task names and definitions. Preserve `taskIdVersion`, `legacyTaskIds` and `defaultTask` when regenerating the data. Generate `quoteSources` alongside `quotes` so every original excerpt retains its interview code and turno.
+3. Check that every excerpt index resolves, its interview code and turno match the local workbook, and each scoped evidence link matches its task, stage and competency. Review changes to task definitions and CHA wording in all three languages.
 4. Preview the task directory, task-to-competency path, CHA list and development graph. Expand their excerpts, check the exact original wording, and test language switching, keyboard use and a narrow screen.
 5. Update the asset version references and publish the verified directory.
 

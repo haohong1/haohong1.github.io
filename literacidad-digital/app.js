@@ -34,11 +34,20 @@
  const updateTaskURL=id=>{try{history.replaceState(null,'',taskURL(id));}catch{}};
  const taskChips = ids => unique(ids).filter(id=>taskById.has(id)).map(id=>`<a class="task-chip" href="${esc(taskURL(id))}" data-task="${esc(id)}">${esc(label(taskById.get(id)))}</a>`).join('');
  const definition = task => task?.definition?.[state.lang] || task?.definition?.es || '';
- const quoteValues = indices => unique(indices.map(i=>D.quotes?.[i]).filter(q=>typeof q==='string'&&q.length));
+ function quoteEntries(indices){
+  const entries=new Map();
+  for(const i of indices){
+   const text=D.quotes?.[i];
+   if(typeof text!=='string'||!text.length)continue;
+   if(!entries.has(text))entries.set(text,{text,sources:new Map()});
+   for(const source of D.quoteSources?.[i]||[])entries.get(text).sources.set(JSON.stringify([source.expert,source.turn]),source);
+  }
+  return [...entries.values()];
+ }
  function quotePanel(indices){
-  const quotes=quoteValues(indices);
+  const quotes=quoteEntries(indices);
   if(!quotes.length)return '';
-  const block=q=>`<blockquote class="interview-quote">"${esc(q)}"</blockquote>`;
+  const block=q=>`<figure class="interview-excerpt"><blockquote class="interview-quote">"${esc(q.text)}"</blockquote><figcaption class="interview-source">${[...q.sources.values()].map(s=>`<span class="interview-source-entry">${esc(s.expert)} · turno ${esc(s.turn)}</span>`).join('')}</figcaption></figure>`;
   return `<details class="interview-evidence"><summary>${esc(t('evidenceRead'))}</summary><div class="interview-excerpts">${quotes.slice(0,2).map(block).join('')}${quotes.length>2?`<details class="interview-more"><summary>${esc(t('evidenceAll'))}</summary>${quotes.slice(2).map(block).join('')}</details>`:''}</div></details>`;
  }
  function evidenceForCHA(id,scope={}){
