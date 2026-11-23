@@ -71,7 +71,7 @@
  function unitMarkup(unit){
   if(unit.type==='paragraph')return `<p data-cb-unit-key="${esc(unit.key)}">${inline(unit.text,unit.key)}</p>`;
   if(unit.type==='basis')return `<p class="cb-source" data-cb-unit-key="${esc(unit.key)}"><span>${esc(state.story.sourceLabel||'')}</span>${inline(unit.text,unit.key)}</p>`;
-  if(unit.type==='example')return `<aside class="cb-example" data-cb-unit-key="${esc(unit.key)}"><span class="cb-example-mark" aria-hidden="true">↗</span><div><h4>${inline(unit.value.title,`${unit.key}-title`)}</h4>${paragraphMarkup(unit.value.paragraphs,unit.key)}</div></aside>`;
+  if(unit.type==='example')return `<aside class="cb-example" data-cb-unit-key="${esc(unit.key)}"><div><h4>${inline(unit.value.title,`${unit.key}-title`)}</h4>${paragraphMarkup(unit.value.paragraphs,unit.key)}</div></aside>`;
   if(unit.type==='aside')return `<aside class="cb-aside" data-cb-unit-key="${esc(unit.key)}"><h4>${inline(unit.value.title,`${unit.key}-title`)}</h4>${unit.value.text?`<p>${inline(unit.value.text,unit.key)}</p>`:''}${paragraphMarkup(unit.value.paragraphs,unit.key)}</aside>`;
   if(unit.type==='comparison')return `<section class="cb-comparison" data-cb-unit-key="${esc(unit.key)}"><h4>${inline(unit.value.title,`${unit.key}-title`)}</h4><div class="cb-comparison-columns">${unit.value.items.map((item,index)=>`<div><h5>${inline(item.label,`${unit.key}-${index}-label`)}</h5><p>${inline(item.text,`${unit.key}-${index}`)}</p></div>`).join('')}</div>${unit.value.note?`<p class="cb-comparison-note">${inline(unit.value.note,`${unit.key}-note`)}</p>`:''}</section>`;
   return '';
@@ -139,16 +139,16 @@
    if(on)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');
   });
   state.root.querySelector('[data-cb-action="return"]').hidden=!returnPoint;
-  state.root.style.setProperty('--cb-header-offset',`${headerHeight()+8}px`);
+  state.root.style.setProperty('--cb-header-offset',`${headerHeight()}px`);
  }
  function paint({turn=0,focus=false,scroll=false}={}){
-  closeTooltip();clearTimeout(turnTimer);state.root.querySelector('.cb-turn-leaf')?.remove();
-  const paper=state.root.querySelector('.cb-paper'),oldHeight=paper.offsetHeight,page=state.pages[state.index];
+  closeTooltip();clearTimeout(turnTimer);
+  const paper=state.root.querySelector('.cb-paper'),page=state.pages[state.index];
   paper.classList.toggle('cb-paper-model',page.type==='model');paper.classList.toggle('cb-paper-references',page.type==='references');paper.innerHTML=pageMarkup(page);
   window.ConceptModels?.mount(paper,state.lang);updateNavigation();
   if(turn&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-   const leaf=document.createElement('div');leaf.className=`cb-turn-leaf ${turn<0?'cb-turn-back':'cb-turn-forward'}`;leaf.setAttribute('aria-hidden','true');leaf.setAttribute('inert','');leaf.style.height=`${Math.min(Math.max(oldHeight,760),paper.offsetHeight)}px`;
-   state.root.querySelector('.cb-page-stage').append(leaf);turnTimer=setTimeout(()=>leaf.remove(),560);
+   const body=paper.querySelector('.cb-page-content');
+   body?.animate([{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:190,easing:'ease-out'});
   }
   if(focus)paper.querySelector('#book-page-title')?.focus({preventScroll:true});
   if(scroll)pageTop();
@@ -212,7 +212,7 @@
   const lang=COPY[language]?language:'es',story=window.CONCEPT_STORY?.[lang],root=document.querySelector('#concept-story');if(!story||!root)return;
   const previous=state.pages.length?contextOf(state.pages[state.index]):null;
   closeTooltip();state.lang=lang;state.story=story;state.root=root;state.refs=references();state.refMap=new Map(state.refs.map(ref=>[ref.id,ref]));state.compact=window.innerWidth<=600;state.pages=paginate(story,lang,state.refs);state.index=locate(previous);
-  root.innerHTML=`<header class="cb-introduction"><span class="cb-eyebrow">${esc(story.eyebrow||text('book'))}</span><h2>${esc(story.title||text('book')).replace(/\n/g,'<br>')}</h2><div>${paragraphMarkup(story.intro,'introduction')}<p class="cb-reading-note">${inline(story.readingNote||'','reading-note')}</p></div></header><div class="cb-book-layout"><div class="cb-book-main">${controls('top')}<div class="cb-page-stage"><article class="cb-paper" aria-labelledby="book-page-title"></article></div>${controls('bottom')}<p class="cb-keyboard-hint">${esc(text('keyboard'))}</p></div><aside class="cb-bookmarks"><p class="cb-bookmark-label">${esc(story.tocTitle||text('contents'))}</p><nav aria-label="${esc(text('contents'))}">${story.sections.map((section,index)=>`<button type="button" data-cb-chapter="${esc(section.id)}"><span class="cb-bookmark-number">${String(index+1).padStart(2,'0')}</span><span>${esc(section.shortTitle||section.title)}</span></button>`).join('')}<button type="button" data-cb-chapter="references" class="cb-reference-bookmark"><span class="cb-bookmark-number" aria-hidden="true">↗</span><span>${esc(text('references'))}</span></button></nav></aside></div><div class="cb-book-end"><span class="cb-book-end-mark" aria-hidden="true">✳</span><a class="button primary" href="#framework"><span>${esc(story.continueFramework||'')}</span><span aria-hidden="true">↗</span></a></div>`;
+  root.innerHTML=`<header class="cb-introduction"><span class="cb-eyebrow">${esc(story.eyebrow||text('book'))}</span><h2>${esc(story.title||text('book')).replace(/\n/g,'<br>')}</h2><div>${paragraphMarkup(story.intro,'introduction')}<p class="cb-reading-note">${inline(story.readingNote||'','reading-note')}</p></div></header><div class="cb-book-layout"><div class="cb-book-main">${controls('top')}<div class="cb-page-stage"><article class="cb-paper" aria-labelledby="book-page-title"></article></div>${controls('bottom')}<p class="cb-keyboard-hint">${esc(text('keyboard'))}</p></div><aside class="cb-bookmarks"><p class="cb-bookmark-label">${esc(story.tocTitle||text('contents'))}</p><nav aria-label="${esc(text('contents'))}">${story.sections.map((section,index)=>`<button type="button" data-cb-chapter="${esc(section.id)}"><span class="cb-bookmark-number">${String(index+1).padStart(2,'0')}</span><span>${esc(section.shortTitle||section.title)}</span></button>`).join('')}<button type="button" data-cb-chapter="references" class="cb-reference-bookmark"><span class="cb-bookmark-number" aria-hidden="true">§</span><span>${esc(text('references'))}</span></button></nav></aside></div><div class="cb-book-end"><a class="button primary" href="#framework"><span>${esc(story.continueFramework||'')}</span><span aria-hidden="true">→</span></a></div>`;
   bind(root);paint();
  }
  function openChapter(id){
@@ -229,7 +229,7 @@
  },{passive:true,capture:true});
  window.addEventListener('resize',()=>{
   closeTooltip();if(!state.root)return;
-  state.root.style.setProperty('--cb-header-offset',`${headerHeight()+8}px`);
+  state.root.style.setProperty('--cb-header-offset',`${headerHeight()}px`);
   if(state.compact!==(window.innerWidth<=600)){
    const context=contextOf(state.pages[state.index]);state.compact=window.innerWidth<=600;
    state.pages=paginate(state.story,state.lang,state.refs);state.index=locate(context);paint();

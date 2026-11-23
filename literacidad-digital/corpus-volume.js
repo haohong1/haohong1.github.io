@@ -25,7 +25,7 @@
  function summary(value='es'){
   const lang=language(value),copy=COPY[lang],data=dataset();
   if(!data?.totals)return '';
-  return `<div class="cv-summary" aria-label="${escape(copy.summary)}"><div class="cv-summary-metrics"><div><strong>${format(data.totals.words,lang)}</strong><span>${escape(copy.words)}</span></div><div><strong>${format(data.totals.han,lang)}</strong><span>${escape(copy.han)}</span></div></div><button type="button" class="cv-summary-link" data-chart="volume">${escape(copy.explore)} <span aria-hidden="true">↗</span></button></div>`;
+  return `<div class="cv-summary" aria-label="${escape(copy.summary)}"><div class="cv-summary-metrics"><div><strong>${format(data.totals.words,lang)}</strong><span>${escape(copy.words)}</span></div><div><strong>${format(data.totals.han,lang)}</strong><span>${escape(copy.han)}</span></div></div><button type="button" class="cv-summary-link" data-chart="volume">${escape(copy.explore)} <span aria-hidden="true">→</span></button></div>`;
  }
  function detail(item,row,lang){
   if(!row)return '';
